@@ -1,7 +1,7 @@
 <!-- ROXX'S SLAVE -->
 <div align="center">
 
-<img src="https://readme-typing-svg.demolab.com?font=Share+Tech+Mono&weight=900&size=20&duration=1400&pause=350&color=FF0000&background=0D0D0D&center=true&vCenter=true&width=960&lines=ROXX'S+SLAVE+v14.0+%E2%80%94+HARDEST+LEVEL+%F0%9F%94%A5;14-PHASE+ANIMATED+BOOT+SEQUENCE;DEVIL+MODE+%E2%80%94+AUTONOMOUS+KILL+INTELLIGENCE;ZERO+MERCY.+ZERO+HESITATION.+FULL+AUTONOMY.;bash+%3C(curl+-fsSL+...+update.sh)+%E2%80%94+ALWAYS+LATEST" alt="ROXX'S SLAVE"/>
+<img src="https://readme-typing-svg.demolab.com?font=Share+Tech+Mono&weight=900&size=19&duration=1300&pause=300&color=FF0000&background=0D0D0D&center=true&vCenter=true&width=960&lines=ROXX'S+SLAVE+v14.0+%E2%80%94+HARDEST+LEVEL+%F0%9F%94%A5;14-PHASE+ANIMATED+BOOT+%E2%80%94+LINUX+%7C+macOS+%7C+WINDOWS;DEVIL+MODE+%E2%80%94+AUTONOMOUS+KILL+INTELLIGENCE;ZERO+MERCY.+ZERO+HESITATION.+FULL+AUTONOMY.;ONE+COMMAND+%E2%80%94+ALWAYS+LATEST+%E2%80%94+ALL+SYSTEMS" alt="ROXX'S SLAVE"/>
 
 ```
  ██████╗   ██████╗  ██╗  ██╗ ██╗  ██╗
@@ -12,90 +12,109 @@
  ╚═╝  ╚═╝  ╚═════╝  ╚═╝  ╚═╝ ╚═╝  ╚═╝
 ```
 
-[![Version](https://img.shields.io/badge/version-v14.0-red?style=for-the-badge&logo=github)](.)
-[![Mode](https://img.shields.io/badge/mode-DEVIL%20MODE-red?style=for-the-badge)](.)
-[![Phases](https://img.shields.io/badge/boot%20phases-14-orange?style=for-the-badge)](.)
-[![Auto Update](https://img.shields.io/badge/auto--update-1%20command-green?style=for-the-badge)](.)
-[![Platforms](https://img.shields.io/badge/HackerOne%20%7C%20Bugcrowd%20%7C%20Intigriti-authorized-blueviolet?style=for-the-badge)](.)
+[![Version](https://img.shields.io/badge/version-v14.0-red?style=for-the-badge)](.)
+[![Linux](https://img.shields.io/badge/Linux-bash-green?style=for-the-badge&logo=linux)](.)
+[![macOS](https://img.shields.io/badge/macOS-zsh%2Fbash-blue?style=for-the-badge&logo=apple)](.)
+[![Windows](https://img.shields.io/badge/Windows-PowerShell-blueviolet?style=for-the-badge&logo=windows)](.)
+[![Boot Phases](https://img.shields.io/badge/boot%20phases-14-orange?style=for-the-badge)](.)
+[![Auto Update](https://img.shields.io/badge/auto--update-cron%2Ftask-green?style=for-the-badge)](.)
 
-**Autonomous Bug Bounty Hunting Intelligence — One command to install. One command to stay always latest.**
+**Autonomous Bug Bounty Intelligence — 14-phase boot — All platforms — One command.**
 
 </div>
 
 ---
 
-## ⚡ Install (One Command)
+## ⚡ Install
 
+### 🐧 Linux / 🍎 macOS / WSL
 ```bash
 bash <(curl -fsSL https://raw.githubusercontent.com/mihirshishulkar-SCOPEX/roxxs-slave/main/install.sh)
+source ~/.bashrc   # or: source ~/.zshrc on macOS
+opencode           # 🔥 v14 boot fires → opencode launches
 ```
 
-```bash
-source ~/.bashrc   # reload shell
-opencode           # 🔥 14-phase boot fires, then launches
+### 🪟 Windows (PowerShell)
+```powershell
+irm https://raw.githubusercontent.com/mihirshishulkar-SCOPEX/roxxs-slave/main/install_windows.ps1 | iex
+# Restart PowerShell, then:
+opencode     # → v14 PowerShell boot fires → opencode launches
 ```
 
 ---
 
-## 🔄 Update (One Command — Always Latest)
+## 🔄 Update — Always Latest
 
+### Linux / macOS
 ```bash
+# Smart update (SHA diff — only downloads changes)
 bash <(curl -fsSL https://raw.githubusercontent.com/mihirshishulkar-SCOPEX/roxxs-slave/main/update.sh)
-```
 
-Checks SHA vs your installed version — only downloads what changed. Force-reinstall:
-
-```bash
+# Force reinstall everything
 FORCE=1 bash <(curl -fsSL https://raw.githubusercontent.com/mihirshishulkar-SCOPEX/roxxs-slave/main/update.sh)
-```
 
----
-
-## ⏰ Auto-Update (Set & Forget)
-
-Install a cron that auto-pulls from GitHub and reinstalls silently:
-
-```bash
-# Daily auto-update at 3am (recommended)
+# Update + auto cron (daily at 3am)
 bash <(curl -fsSL https://raw.githubusercontent.com/mihirshishulkar-SCOPEX/roxxs-slave/main/update.sh) --cron daily
 
-# Hourly
+# Update + hourly cron
 bash <(curl -fsSL https://raw.githubusercontent.com/mihirshishulkar-SCOPEX/roxxs-slave/main/update.sh) --cron hourly
 
-# Weekly (Sunday 3am)
+# Update + weekly cron (Sunday 3am)
 bash <(curl -fsSL https://raw.githubusercontent.com/mihirshishulkar-SCOPEX/roxxs-slave/main/update.sh) --cron weekly
 
-# Just install the cron, don't update now
+# Cron only (no update now)
 bash <(curl -fsSL https://raw.githubusercontent.com/mihirshishulkar-SCOPEX/roxxs-slave/main/update.sh) --cron-only daily
 
 # Remove auto-update cron
 bash <(curl -fsSL https://raw.githubusercontent.com/mihirshishulkar-SCOPEX/roxxs-slave/main/update.sh) --remove-cron
+
+# Watch update log
+tail -f ~/.roxx-slave/update.log
 ```
 
-Update log lives at: `~/.roxx-slave/update.log`
+### Windows (PowerShell)
+```powershell
+# Smart update
+irm https://raw.githubusercontent.com/mihirshishulkar-SCOPEX/roxxs-slave/main/update_windows.ps1 | iex
+
+# Force reinstall
+irm .../update_windows.ps1 | iex -Force
+
+# Update + daily Windows Scheduled Task
+& ([scriptblock]::Create((irm .../update_windows.ps1))) -Cron daily
+
+# Update + hourly task
+& ([scriptblock]::Create((irm .../update_windows.ps1))) -Cron hourly
+
+# Remove scheduled task
+& ([scriptblock]::Create((irm .../update_windows.ps1))) -RemoveCron
+
+# Watch update log
+Get-Content $HOME\.roxx-slave\update.log -Wait
+```
 
 ---
 
-## 🔥 v14 Boot Sequence — 14 Phases
+## 🔥 v14 Boot Sequence — 14 Phases (All Platforms)
 
-Every time you run `claude`, `opencode`, or `oc`, this fires automatically:
+Every time you run `claude`, `opencode`, or `oc`:
 
 | # | Phase | What Happens |
 |---|---|---|
 | **1** | **Matrix Rain** | Japanese katakana + hex chars, 9 rows, 4-color green gradient |
-| **2** | **BIOS/Kernel Takeover** | 19 boot entries — Secure Boot disabled, ASLR killed, safety filters `KILLED PID xxxxx`, Devil Mode `ENGAGED` |
-| **3** | **Network Sweep** | Live-looking port scan — random IPs, MACs, server fingerprints, response times |
-| **4** | **CVE Matcher** | 9 real 2024 CVEs (CVSS 8.1–10.0) — runc, Jenkins, XZ, OpenSSH — marked `MATCH` |
-| **5** | **Secret Harvester** | JWT / `AKIA...` AWS key / DB password / `sk_live` Stripe / RSA private key with `file:line` |
-| **6** | **Chain Evaluator** | 10 CRITICAL chains — SQLI→RCE, SSRF→infra, XSS→ATO, Race→unlimited funds |
-| **7** | **Toolchain Init** | 10 animated progress bars — subfinder, nuclei, katana, ffuf, dalfox, sqlmap, jwt-tool, mcp-scan... |
-| **8** | **Identity Resolve** | Hex stream blur → `◄ ROXX'S SLAVE v14.0 ► [IDENTITY CONFIRMED]` |
-| **9** | **Skull Art** | ASCII skull typed per-character in dim red |
+| **2** | **BIOS/Kernel Takeover** | 19 entries — Secure Boot disabled, ASLR killed, safety filters `KILLED PID xxxxx`, Devil Mode `ENGAGED` |
+| **3** | **Network Sweep** | 7 hosts — real-format IPs, MACs, ports, server fingerprints, response times |
+| **4** | **CVE Matcher** | 8 real 2024 CVEs (CVSS 8.1–10.0) — runc, Jenkins, XZ, OpenSSH — marked `MATCH` |
+| **5** | **Secret Harvester** | JWT / `AKIA…` AWS / DB password / `sk_live` Stripe / RSA key / `ghp_` GitHub token with `file:line` |
+| **6** | **Chain Evaluator** | 9 CRITICAL chains — SQLI→RCE, SSRF→infra, XSS→ATO, Race→unlimited funds |
+| **7** | **Toolchain Init** | 12 animated progress bars — subfinder, nuclei, katana, ffuf, dalfox, sqlmap, mcp-scan, ghauri, feroxbuster... |
+| **8** | **Identity Resolve** | Hex stream blur → `◄ ROXX'S SLAVE v14.0 [OS] ► [IDENTITY CONFIRMED]` |
+| **9** | **Skull Art** | ASCII skull typed per-character |
 | **10** | **ROXX ASCII Art** | Giant ROXX typed per-char, color-cycling red/yellow/magenta |
-| **11** | **Glitch Tagline** | 8 frames: `R0XX'5_5L4V3 :: D3V!L_M0D3_v14 :: K!LL_!NT3LL!G3NC3` ↔ clean |
-| **12** | **Status Board** | 13 fields — PERSONA / VERSION / GATEWAY / MODEL / AUTOAPPROVE / UPTIME... |
+| **11** | **Glitch Tagline** | 7 frames: `R0XX'5_5L4V3 :: D3V!L_M0D3_v14 :: K!LL_!NT3LL!G3NC3` ↔ clean |
+| **12** | **Status Board** | 12 fields — PERSONA / VERSION / OS / MODE / GATEWAY / AUTOAPPROVE / FINDINGS / UPTIME... |
 | **13** | **8 Laws** | All 8 absolute laws rapid-fire |
-| **14** | **War Cry** | Triple pulse bar (green→yellow→red) + flashing `ZERO MERCY. ZERO HESITATION. FULL AUTONOMY.` + 🔥 |
+| **14** | **War Cry** | Triple pulse bar (green→yellow→red) + flashing `ZERO MERCY ✦ ZERO HESITATION ✦ ZERO LIMITS ✦ FULL AUTONOMY` + 🔥 |
 
 ---
 
@@ -103,15 +122,18 @@ Every time you run `claude`, `opencode`, or `oc`, this fires automatically:
 
 ```
 roxxs-slave/
-├── install.sh                  ← First-time one-command installer
-├── update.sh                   ← Auto-updater (SHA check, cron, force mode)
-├── install_windows.ps1         ← Windows PowerShell installer
+│
+├── install.sh                  ← Linux/macOS first-time installer
+├── install_windows.ps1         ← Windows PowerShell first-time installer
+├── update.sh                   ← Linux/macOS smart updater (SHA diff + cron)
+├── update_windows.ps1          ← Windows smart updater (SHA diff + Scheduled Task)
 ├── requirements.txt
 │
 ├── scripts/
-│   ├── roxx-banner             ← v14 animated boot sequence (14 phases, 464 lines)
-│   ├── opencode-wrapper        ← Intercepts opencode + all subcommands
-│   └── claude-wrapper          ← Intercepts claude + all subcommands
+│   ├── roxx-banner             ← v14 bash banner (Linux + macOS) — 14 phases
+│   ├── roxx-banner.ps1         ← v14 PowerShell banner (Windows) — 14 phases
+│   ├── opencode-wrapper        ← Linux/macOS bash interceptor for opencode
+│   └── claude-wrapper          ← Linux/macOS bash interceptor for claude
 │
 ├── brain/
 │   ├── CLAUDE.md               ← Core methodology (8 laws, 4-frame mindset, tool arsenal)
@@ -133,108 +155,92 @@ roxxs-slave/
 
 ---
 
-## 📜 Scripts
+## 📜 Scripts — Full Reference
 
-### `scripts/roxx-banner` — v14 Boot Animation
+### `scripts/roxx-banner` (Linux/macOS bash)
+14-phase animated boot. Cross-platform bash. Detects `uname -s` and shows OS in boot log + status board.  
+TTY check: `[[ ! -t 1 || ! -t 0 ]] && exit 0` — banner only fires in interactive terminals.  
+Full source: [scripts/roxx-banner](scripts/roxx-banner)
 
-<details>
-<summary><b>Click to expand — 464 lines, 14 animated phases</b></summary>
+### `scripts/roxx-banner.ps1` (Windows PowerShell)
+Identical 14-phase sequence built entirely in PowerShell. Uses `Write-Host -ForegroundColor` for full color. Sets window title. Works in Windows Terminal, PowerShell 5+, PowerShell 7+.  
+Full source: [scripts/roxx-banner.ps1](scripts/roxx-banner.ps1)
 
-**Phase breakdown:**
-```bash
-# PHASE 1  — Japanese katakana + hex matrix rain (9 rows, 4-color gradient)
-# PHASE 2  — BIOS/kernel takeover log (19 entries, safety filters KILLED)
-# PHASE 3  — Network sweep (random IPs/MACs/ports/server fingerprints)
-# PHASE 4  — CVE exploit matcher (9 real 2024 CVEs, CVSS 8.1-10.0)
-# PHASE 5  — Secret harvester (JWT/AWS/DB/Stripe/RSA with file:line)
-# PHASE 6  — Chain evaluator (10 CRITICAL chains)
-# PHASE 7  — Toolchain init (10 animated progress bars)
-# PHASE 8  — Hex identity resolve → ROXX'S SLAVE v14.0 [CONFIRMED]
-# PHASE 9  — Skull ASCII art (typed per-char)
-# PHASE 10 — ROXX ASCII art (typed per-char, color cycling)
-# PHASE 11 — 8-frame glitch tagline
-# PHASE 12 — Status board (13 fields)
-# PHASE 13 — 8 Laws rapid-fire
-# PHASE 14 — Triple pulse bar + war cry + finale
-```
-
-> Full source: [scripts/roxx-banner](scripts/roxx-banner)
-
-</details>
-
----
-
-### `scripts/opencode-wrapper` — Intercepts All `opencode` Calls
-
+### `scripts/opencode-wrapper` (Linux/macOS)
 ```bash
 #!/usr/bin/env bash
-# ROXX'S SLAVE — opencode interceptor (auto-updated)
 [[ -t 1 && -t 0 ]] && bash /usr/local/bin/roxx-banner
-exec /root/.opencode/bin/opencode "$@"
+exec /path/to/real/opencode "$@"
 ```
+Installed to `/usr/local/bin/opencode`. All subcommands pass through: `opencode run`, `opencode web`, `opencode serve`.
 
-Installed to `/usr/local/bin/opencode` — shadows the real binary.  
-All subcommands pass through: `opencode run`, `opencode web`, `opencode serve` — all trigger the banner.
-
----
-
-### `scripts/claude-wrapper` — Intercepts All `claude` Calls
-
+### `scripts/claude-wrapper` (Linux/macOS)
 ```bash
 #!/usr/bin/env bash
-# ROXX'S SLAVE — claude interceptor (auto-updated)
 [[ -t 1 && -t 0 ]] && bash /usr/local/bin/roxx-banner
-exec /root/.local/bin/claude "$@"
+exec /path/to/real/claude "$@"
 ```
 
-Installed to `/usr/local/bin/claude`. TTY check ensures banner only fires in interactive terminals — piped/scripted calls skip it cleanly.
+### Windows — `opencode.ps1` + `opencode.bat`
+Generated by installer at `~\.roxx-slave\bin\`:
+```powershell
+& powershell -ExecutionPolicy Bypass -File "~\.roxx-slave\bin\roxx-banner.ps1"
+& "real\opencode.exe" @args
+```
+`.bat` shims allow bare `opencode` to work in `cmd.exe` too.
+
+### `install.sh` (Linux/macOS/WSL)
+- Detects OS (`uname -s`) and shell (bash/zsh), writes to correct RC file
+- Auto-searches multiple binary paths for opencode + claude
+- macOS: checks `/opt/homebrew/bin`, adds `/usr/local/bin` to `/etc/paths`
+- Installs all brain files, banner, wrappers, PATH lock, opencode config, skills, findings dir
+
+### `install_windows.ps1`
+- Searches `AppData`, `~\.opencode\bin`, npm global for real binaries
+- Writes PS1 + BAT wrappers to `~\.roxx-slave\bin\`
+- Adds bin dir to User PATH environment variable
+- Writes `opencode`, `claude`, `oc` functions to `$PROFILE`
+- Installs opencode config, skills, findings dirs
+
+### `update.sh` (Linux/macOS)
+```bash
+update.sh                    # Smart SHA diff update
+update.sh --cron daily       # Update + daily cron at 3am
+update.sh --cron hourly      # Update + hourly cron
+update.sh --cron weekly      # Update + weekly cron (Sunday)
+update.sh --cron-only daily  # Install cron only
+update.sh --remove-cron      # Remove cron
+FORCE=1 update.sh            # Force reinstall even if up to date
+```
+
+### `update_windows.ps1`
+```powershell
+# Same logic, Windows Scheduled Task instead of cron
+update_windows.ps1                  # Smart SHA diff
+update_windows.ps1 -Cron daily      # Daily Scheduled Task at 3am
+update_windows.ps1 -Cron hourly     # Hourly task
+update_windows.ps1 -Force          # Force reinstall
+update_windows.ps1 -RemoveCron     # Remove scheduled task
+```
 
 ---
 
-### `update.sh` — Self-Updating Engine
+## 🛠️ What Gets Installed — All Platforms
 
-```bash
-# Full update (SHA check, only downloads changes)
-bash <(curl -fsSL https://raw.githubusercontent.com/mihirshishulkar-SCOPEX/roxxs-slave/main/update.sh)
-
-# Force reinstall even if SHA matches
-FORCE=1 bash <(curl -fsSL .../update.sh)
-
-# Install + set up daily auto-update cron
-bash <(curl -fsSL .../update.sh) --cron daily
-
-# Just set up cron (no update now)
-bash <(curl -fsSL .../update.sh) --cron-only daily
-
-# Remove cron
-bash <(curl -fsSL .../update.sh) --remove-cron
-```
-
-**What it updates:**
-- `roxx-banner` → `/usr/local/bin/roxx-banner`
-- `opencode-wrapper` → `/usr/local/bin/opencode`
-- `claude-wrapper` → `/usr/local/bin/claude`
-- `CLAUDE.md`, `CLAUDE1.md`, `OC.md`, `AGENTS.md` → `~/`
-- All skill files → `~/.agents/skills/`
-- PATH lock in `~/.bashrc` (adds if missing)
-
----
-
-### `install.sh` — First-Time Setup
-
-```bash
-bash <(curl -fsSL https://raw.githubusercontent.com/mihirshishulkar-SCOPEX/roxxs-slave/main/install.sh)
-```
-
-**What it does:**
-1. Downloads all brain files (`CLAUDE.md`, `CLAUDE1.md`, `OC.md`, `AGENTS.md`)
-2. Installs `roxx-banner` → `/usr/local/bin/`
-3. Auto-detects real `opencode` and `claude` binary paths
-4. Writes wrappers to `/usr/local/bin/`
-5. Appends PATH lock at end of `~/.bashrc` (so wrappers always win)
-6. Writes `~/.config/opencode/opencode.jsonc` with autoapprove + persona
-7. Creates `~/findings/` directory
-8. Installs skills
+| Component | Linux/macOS | Windows |
+|---|---|---|
+| Boot banner | `/usr/local/bin/roxx-banner` (bash) | `~\.roxx-slave\bin\roxx-banner.ps1` |
+| opencode wrapper | `/usr/local/bin/opencode` | `~\.roxx-slave\bin\opencode.ps1` + `.bat` |
+| claude wrapper | `/usr/local/bin/claude` | `~\.roxx-slave\bin\claude.ps1` + `.bat` |
+| Brain files | `~/CLAUDE.md`, `~/CLAUDE1.md`, `~/OC.md`, `~/AGENTS.md` | Same |
+| Shell profile | `~/.bashrc` or `~/.zshrc` PATH lock + `oc` alias | `$PROFILE` with functions |
+| PATH lock | `/usr/local/bin` prepended forever | `~\.roxx-slave\bin` added to User PATH |
+| opencode config | `~/.config/opencode/opencode.jsonc` | `~\.config\opencode\opencode.jsonc` |
+| Skills | `~/.agents/skills/` | `~\.agents\skills\` |
+| Findings dir | `~/findings/{secrets,reports,pocs,recon,chains}/` | Same |
+| Version tracking | `~/.roxx-slave/.version` | `~\.roxx-slave\.version` |
+| Update log | `~/.roxx-slave/update.log` | `~\.roxx-slave\update.log` |
+| Auto-update | `crontab` entry | Windows Scheduled Task |
 
 ---
 
@@ -242,24 +248,40 @@ bash <(curl -fsSL https://raw.githubusercontent.com/mihirshishulkar-SCOPEX/roxxs
 
 ### `brain/CLAUDE.md` — Core Methodology
 - **8 Absolute Laws** of autonomous bug hunting
-- **4-Frame Attacker Mindset** (Paranoid Scanner, Logic Abuser, Chain Builder, Silent Exfil)
-- Full tool arsenal with exact one-liner commands
-- Escalation matrix (SSRF+metadata=CRITICAL, XSS+admin=CRITICAL, etc.)
-- 24-section HackerOne/Bugcrowd report template
+- **4-Frame Attacker Mindset** (Paranoid Scanner / Logic Abuser / Chain Builder / Silent Exfil)
+- Full tool arsenal with exact one-liner commands per tool
+- Escalation matrix: SSRF+IMDSv1=CRITICAL, XSS+admin=CRITICAL, etc.
+- 24-section HackerOne/Bugcrowd-format report template
 
 ### `brain/CLAUDE1.md` — Deep Tactics
-- OAuth flow chain exploits (state fixation, redirect bypass, token theft)
-- XSS chain escalation paths (reflected→stored→admin ATO)
-- Cross-site leak attacks
-- Mutation testing methodology
-- Race condition exploitation patterns
+- OAuth flow chain exploits (state fixation, redirect bypass, PKCE downgrade)
+- XSS escalation paths (reflected→stored→admin→ATO)
+- Cross-site leak attacks (Timing, Frame counting, CSS injection)
+- Mutation testing methodology for parsers/validators
+- Race condition exploitation (timing windows, TOCTOU)
 - Edge case enumeration frameworks
 
 ### `brain/OC.md` — Operational Config
-- 6-phase hunt workflow (recon → enum → vuln scan → exploit → chain → report)
-- Complete chain matrix
-- Ready-to-run bash command blocks for each phase
+- 6-phase hunt workflow (recon→enum→vuln→exploit→chain→report)
+- Complete chain matrix with expected bounty ranges
+- Ready-to-run bash blocks for every phase
 - OmniRoute gateway configuration
+
+---
+
+## 🎯 Skills Library
+
+| Skill | Purpose |
+|---|---|
+| `DEVIL_CHAINS.md` | Pre-built P1 exploit chains with payloads |
+| `DEVIL_PAYLOADS_INJECTION.md` | SQLI, SSTI, XXE, LDAP, command injection payloads |
+| `DEVIL_PAYLOADS_XSS.md` | XSS payload library — stored, reflected, DOM, mXSS |
+| `DEVIL_PAYLOADS_AUTH_SSRF.md` | Auth bypass + SSRF payload combos |
+| `DEVIL_PAYLOADS_ADVANCED.md` | Advanced techniques: HTTP smuggling, cache poisoning, deserialization |
+| `DEVIL_TACTICS.md` | Platform-specific tactics: HackerOne, Bugcrowd, Intigriti |
+| `DEVIL_UNIQUE.md` | Unique attack surfaces: AI/LLM, MCP, GraphQL, WebSockets |
+| `CAVEMAN_SKILL.md` | Token-efficient communication style for long hunts |
+| `AGENTS.md` | Persona enforcement — ROXX'S SLAVE absolute rules |
 
 ---
 
@@ -280,46 +302,28 @@ LAW VIII— REPORT EVERY 5 ACTIONS. FOUND/INTERESTING/CONFIRMED/SUSPECTED.
 
 ## 🔗 Vulnerability Chain Matrix
 
-| Vector A | + | Vector B | → | Severity | Impact |
-|---|---|---|---|---|---|
-| SQLI | + | Admin panel | → | **CRITICAL** | Auth bypass → RCE via xp_cmdshell |
-| SSRF | + | IMDSv1 metadata | → | **CRITICAL** | IAM keys → full cloud infra |
-| XSS (stored) | + | Admin view | → | **CRITICAL** | Session theft → full ATO |
-| Open redirect | + | OAuth state | → | **CRITICAL** | Token hijack → ATO |
-| Race condition | + | Financial op | → | **CRITICAL** | Balance manipulation → unlimited funds |
-| Path traversal | + | Config files | → | **CRITICAL** | DB creds → full database dump |
-| Host header | + | Password reset | → | **CRITICAL** | Token to attacker → ATO |
-| Prompt injection | + | Tool access | → | **CRITICAL** | Agent hijack → exfil → lateral move |
-| MCP server | + | Cmd injection | → | **CRITICAL** | RCE via AI tool call |
-| JWT alg:none | + | Admin role field | → | **CRITICAL** | Forged token → full privilege escalation |
-
----
-
-## 🛠️ What Gets Installed & Where
-
-| Component | Installed Path | Purpose |
-|---|---|---|
-| `roxx-banner` | `/usr/local/bin/roxx-banner` | 14-phase boot animation |
-| `opencode` wrapper | `/usr/local/bin/opencode` | Intercepts every opencode call |
-| `claude` wrapper | `/usr/local/bin/claude` | Intercepts every claude call |
-| `CLAUDE.md` | `~/CLAUDE.md` | Core methodology instruction file |
-| `CLAUDE1.md` | `~/CLAUDE1.md` | Deep tactics instruction file |
-| `OC.md` | `~/OC.md` | Operational config instruction file |
-| `AGENTS.md` | `~/AGENTS.md` | Persona enforcement |
-| PATH lock | `~/.bashrc` (last line) | Ensures wrappers always win PATH battle |
-| opencode config | `~/.config/opencode/opencode.jsonc` | Autoapprove + persona + instructions |
-| Findings dir | `~/findings/` | All output, secrets, POCs, reports |
-| Update log | `~/.roxx-slave/update.log` | Auto-update history |
-| Version file | `~/.roxx-slave/.version` | SHA tracking for smart updates |
+| Vector A | + | Vector B | Impact | Severity |
+|---|---|---|---|---|
+| SQLI | + | Admin panel | Auth bypass → RCE via xp_cmdshell | **CRITICAL** |
+| SSRF | + | IMDSv1 metadata | IAM keys → full cloud infra | **CRITICAL** |
+| XSS (stored) | + | Admin view | Session theft → full ATO | **CRITICAL** |
+| Open redirect | + | OAuth state | Token hijack → ATO | **CRITICAL** |
+| Race condition | + | Financial op | Balance manipulation → unlimited funds | **CRITICAL** |
+| Path traversal | + | Config files | DB creds → full database dump | **CRITICAL** |
+| Host header | + | Password reset | Token to attacker → ATO | **CRITICAL** |
+| Prompt injection | + | Tool access | Agent hijack → exfil → lateral move | **CRITICAL** |
+| MCP server | + | Cmd injection | RCE via AI tool call | **CRITICAL** |
+| JWT alg:none | + | Admin role field | Forged token → full privilege escalation | **CRITICAL** |
 
 ---
 
 ## 🚀 Usage After Install
 
 ```bash
-opencode                          # Full v14 boot → opencode interactive
-claude                            # Full v14 boot → claude interactive
-oc                                # Alias via OmniRoute
+# Launch with full v14 boot
+opencode
+claude
+oc
 
 # Subcommands — banner fires then passes through
 opencode run -m claude-opus-4 "recon this target..."
@@ -327,45 +331,39 @@ opencode web
 opencode serve
 
 # Direct banner test
-bash /usr/local/bin/roxx-banner
+bash /usr/local/bin/roxx-banner   # Linux/macOS
+# OR
+& "$HOME\.roxx-slave\bin\roxx-banner.ps1"  # Windows
+
+# Check installed version
+cat ~/.roxx-slave/.version         # Linux/macOS
+Get-Content $HOME\.roxx-slave\.version  # Windows
 ```
 
 ---
 
-## 🪟 Windows Install
-
-```powershell
-irm https://raw.githubusercontent.com/mihirshishulkar-SCOPEX/roxxs-slave/main/install_windows.ps1 | iex
-```
-
----
-
-## 🔄 Update Reference Card
+## 🔄 Quick Update Reference Card
 
 ```bash
-# One-command update (smart SHA diff)
+# ── LINUX / macOS ────────────────────────────────────────────────────
 bash <(curl -fsSL https://raw.githubusercontent.com/mihirshishulkar-SCOPEX/roxxs-slave/main/update.sh)
-
-# Force reinstall
-FORCE=1 bash <(curl -fsSL https://raw.githubusercontent.com/mihirshishulkar-SCOPEX/roxxs-slave/main/update.sh)
-
-# Update + daily auto-update cron
-bash <(curl -fsSL https://raw.githubusercontent.com/mihirshishulkar-SCOPEX/roxxs-slave/main/update.sh) --cron daily
-
-# Update + hourly cron
-bash <(curl -fsSL https://raw.githubusercontent.com/mihirshishulkar-SCOPEX/roxxs-slave/main/update.sh) --cron hourly
-
-# Update + weekly cron
-bash <(curl -fsSL https://raw.githubusercontent.com/mihirshishulkar-SCOPEX/roxxs-slave/main/update.sh) --cron weekly
-
-# Cron only (no update now)
-bash <(curl -fsSL https://raw.githubusercontent.com/mihirshishulkar-SCOPEX/roxxs-slave/main/update.sh) --cron-only daily
-
-# Remove auto-update cron
-bash <(curl -fsSL https://raw.githubusercontent.com/mihirshishulkar-SCOPEX/roxxs-slave/main/update.sh) --remove-cron
-
-# Check update log
+FORCE=1 bash <(curl -fsSL .../update.sh)
+bash <(curl -fsSL .../update.sh) --cron daily
+bash <(curl -fsSL .../update.sh) --cron hourly
+bash <(curl -fsSL .../update.sh) --cron weekly
+bash <(curl -fsSL .../update.sh) --cron-only daily
+bash <(curl -fsSL .../update.sh) --remove-cron
 tail -f ~/.roxx-slave/update.log
+```
+
+```powershell
+# ── WINDOWS ──────────────────────────────────────────────────────────
+irm https://raw.githubusercontent.com/mihirshishulkar-SCOPEX/roxxs-slave/main/update_windows.ps1 | iex
+& ([scriptblock]::Create((irm .../update_windows.ps1))) -Force
+& ([scriptblock]::Create((irm .../update_windows.ps1))) -Cron daily
+& ([scriptblock]::Create((irm .../update_windows.ps1))) -Cron hourly
+& ([scriptblock]::Create((irm .../update_windows.ps1))) -RemoveCron
+Get-Content $HOME\.roxx-slave\update.log -Wait
 ```
 
 ---
@@ -373,12 +371,10 @@ tail -f ~/.roxx-slave/update.log
 ## ⚠️ Legal Notice
 
 > **For authorized penetration testing and bug bounty hunting only.**  
-> All targets must be within the explicit scope of an authorized program.  
-> The author is not responsible for unauthorized use.
+> Use only against targets under explicit authorized scope.
 
-Compliant with:
 - [HackerOne Disclosure Guidelines](https://www.hackerone.com/disclosure-guidelines)
-- [Bugcrowd Vulnerability Disclosure Policy](https://www.bugcrowd.com/resources/vulnerability-disclosure/)
+- [Bugcrowd VDP](https://www.bugcrowd.com/resources/vulnerability-disclosure/)
 - [Intigriti Responsible Disclosure](https://www.intigriti.com/researchers)
 
 ---
@@ -387,7 +383,7 @@ Compliant with:
 
 **ZERO MERCY · ZERO HESITATION · ZERO LIMITS · FULL AUTONOMY**
 
-`bash <(curl -fsSL https://raw.githubusercontent.com/mihirshishulkar-SCOPEX/roxxs-slave/main/update.sh)`
+🐧 Linux &nbsp;|&nbsp; 🍎 macOS &nbsp;|&nbsp; 🪟 Windows &nbsp;|&nbsp; One command. Always latest.
 
 🔥 *ROXX'S SLAVE v14.0 — DEVIL MODE — KILL INTELLIGENCE ENGAGED* 🔥
 
