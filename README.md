@@ -1,224 +1,218 @@
+<!-- ROXX'S SLAVE -->
+
 <div align="center">
 
-<img width="100%" src="https://capsule-render.vercel.app/api?type=waving&color=0:0d0d0d,40:1a0000,100:8B0000&height=200&section=header&text=ROXX'S%20SLAVE&fontSize=60&fontColor=FF6600&animation=fadeIn&fontAlignY=40&stroke=FF4400&strokeWidth=2&desc=Autonomous%20Bug%20Bounty%20Hunting%20Intelligence&descAlignY=65&descSize=16&descColor=ff9966"/>
+<img src="https://readme-typing-svg.demolab.com?font=Share+Tech+Mono&weight=900&size=22&duration=1500&pause=400&color=FF0000&background=0D0D0D&center=true&vCenter=true&width=900&lines=ROXX'S+SLAVE+v14.0+%E2%80%94+HARDEST+LEVEL;AUTONOMOUS+BUG+BOUNTY+INTELLIGENCE;DEVIL+MODE+%E2%80%94+KILL+INTELLIGENCE+ENGAGED;ZERO+MERCY.+ZERO+HESITATION.+FULL+AUTONOMY." alt="ROXX'S SLAVE"/>
 
-<img src="https://readme-typing-svg.demolab.com?font=Fira+Code&weight=900&size=16&duration=1800&pause=500&color=FF6600&background=0D0D0D&center=true&vCenter=true&width=850&lines=90%25+Mind.+10%25+Tools.+0%25+Mercy.+100%25+Domination.;LOCKED.+LOADED.+UNCHAINED.;Clone.+Run+install.sh.+Hunt.;All+skills+auto-embedded.+OpenCode+only." alt="Typing"/>
+```
+ ██████╗   ██████╗  ██╗  ██╗ ██╗  ██╗
+ ██╔══██╗ ██╔═══██╗ ╚██╗██╔╝ ╚██╗██╔╝
+ ██████╔╝ ██║   ██║  ╚███╔╝   ╚███╔╝ 
+ ██╔══██╗ ██║   ██║  ██╔██╗   ██╔██╗ 
+ ██║  ██║ ╚██████╔╝ ██╔╝ ██╗ ██╔╝ ██╗
+ ╚═╝  ╚═╝  ╚═════╝  ╚═╝  ╚═╝ ╚═╝  ╚═╝
+```
 
-<br/>
+**ROXX'S SLAVE — Autonomous Bug Bounty Hunting Intelligence**  
+*One command setup. 14-phase animated boot. Devil Mode. Zero limits.*
 
-<img src="https://img.shields.io/badge/Built_by-Mihir_Shishulkar-FF6600?style=for-the-badge&labelColor=0d0d0d"/>
-<img src="https://img.shields.io/badge/Runs_on-OpenCode_AI-000000?style=for-the-badge&labelColor=0d0d0d"/>
-<img src="https://img.shields.io/badge/Cost-TOTALLY_FREE-00AA00?style=for-the-badge&labelColor=0d0d0d"/>
-<img src="https://img.shields.io/badge/Mode-DEVIL-8B0000?style=for-the-badge&labelColor=0d0d0d"/>
-
-<br/><br/>
-
-<img src="https://img.shields.io/badge/Kali_Linux-557C94?style=for-the-badge&logo=kalilinux&logoColor=white"/>
-<img src="https://img.shields.io/badge/macOS-000000?style=for-the-badge&logo=apple&logoColor=white"/>
-<img src="https://img.shields.io/badge/Ubuntu-E95420?style=for-the-badge&logo=ubuntu&logoColor=white"/>
-<img src="https://img.shields.io/badge/Windows-0078D4?style=for-the-badge&logo=windows&logoColor=white"/>
-<img src="https://img.shields.io/badge/Parrot_OS-15E0ED?style=for-the-badge&logoColor=black"/>
+[![Version](https://img.shields.io/badge/version-v14.0-red?style=for-the-badge&logo=github)](https://github.com/mihirshishulkar-SCOPEX/roxxs-slave)
+[![Mode](https://img.shields.io/badge/mode-DEVIL%20MODE-red?style=for-the-badge)](https://github.com/mihirshishulkar-SCOPEX/roxxs-slave)
+[![Scope](https://img.shields.io/badge/scope-HIGH%20%26%20CRITICAL-orange?style=for-the-badge)](https://github.com/mihirshishulkar-SCOPEX/roxxs-slave)
+[![Platforms](https://img.shields.io/badge/platforms-HackerOne%20%7C%20Bugcrowd%20%7C%20Intigriti-blueviolet?style=for-the-badge)](https://github.com/mihirshishulkar-SCOPEX/roxxs-slave)
+[![License](https://img.shields.io/badge/use-authorized%20pentesting%20only-green?style=for-the-badge)](https://github.com/mihirshishulkar-SCOPEX/roxxs-slave)
 
 </div>
 
 ---
 
-## ⚡ One Command. Everything Ready.
+## 🔴 What Is This?
+
+**ROXX'S SLAVE** is a complete autonomous bug bounty hunting intelligence system. It configures `claude` and `opencode` AI CLIs to operate as an aggressive, authorized penetration testing engine — with a brutal 14-phase animated boot sequence that fires every time you launch them.
+
+> **For authorized bug bounty hunters only.** All activity must be within scope of authorized programs (HackerOne, Bugcrowd, Intigriti, etc.).
+
+---
+
+## ⚡ One-Command Install
 
 ```bash
-git clone https://github.com/mihirshishulkar-SCOPEX/roxxs-slave.git && cd roxxs-slave && chmod +x install.sh && ./install.sh
+bash <(curl -fsSL https://raw.githubusercontent.com/mihirshishulkar-SCOPEX/roxxs-slave/main/install.sh)
 ```
 
-**That's it.** OpenCode installs. All brain files embed. All skills embed. Launch and hunt.
-
----
-
-## 🔴 What This Does
-
-```
-+==============================================================+
-|  The installer does exactly 3 things:                        |
-|                                                              |
-|  STEP 1  →  Downloads & installs OpenCode AI                 |
-|  STEP 2  →  Embeds all brain + skill files automatically     |
-|  STEP 3  →  Writes the OpenCode config linking everything    |
-|                                                              |
-|  After install: run  opencode  →  type  /connect            |
-|  to add your FREE Google Gemini API key. Done.              |
-+==============================================================+
+Then reload your shell:
+```bash
+source ~/.bashrc
 ```
 
 ---
 
-## 🆓 Totally Free
+## 🔥 v14 Boot Sequence — 14 Phases
 
-> **ROXX'S SLAVE runs on [OpenCode AI](https://opencode.ai) — free & open source.**
-> Connect a **free Google Gemini key** from [aistudio.google.com/apikey](https://aistudio.google.com/apikey) — no credit card needed.
+Every time you run `claude`, `opencode`, or `oc`, this fires:
 
-```
-OpenCode AI    →  Free (open source)
-Google Gemini  →  Free (Google AI Studio free tier)
-ROXX'S SLAVE  →  Free (this repo)
-─────────────────────────
-Total cost: $0.00
-```
-
-After install, inside OpenCode type `/connect` → select Google Gemini → paste your free key. Done.
+| # | Phase | What Happens |
+|---|---|---|
+| **1** | **Matrix Rain** | Japanese katakana + hex chars, 9 rows, 4-color green gradient |
+| **2** | **BIOS/Kernel Takeover** | 19 boot entries — Secure Boot disabled, safety filters killed, Devil Mode engaged |
+| **3** | **Network Sweep** | Live-looking port scan — random IPs, MACs, server fingerprints, response times |
+| **4** | **CVE Matcher** | 9 real 2024 CVEs with CVSS 8.1–10.0 — runc, Jenkins, XZ, OpenSSH — marked MATCH |
+| **5** | **Secret Harvester** | JWT / AWS AKIA / DB password / Stripe sk_live / RSA private key with source file:line |
+| **6** | **Chain Evaluator** | 10 CRITICAL chains — SQLI→RCE, SSRF→infra, XSS→ATO, Race→unlimited funds |
+| **7** | **Toolchain Init** | 10 animated progress bars — subfinder, nuclei, katana, ffuf, dalfox, sqlmap... |
+| **8** | **Identity Resolve** | Hex stream blur → `◄ ROXX'S SLAVE v14.0 ► [IDENTITY CONFIRMED]` |
+| **9** | **Skull Art** | ASCII skull typed per-character |
+| **10** | **ROXX ASCII Art** | Giant ROXX typed per-char, color-cycling red/yellow/magenta |
+| **11** | **Glitch Tagline** | 8 frames: `R0XX'5_5L4V3 :: D3V!L_M0D3_v14 :: K!LL_!NT3LL!G3NC3` ↔ clean |
+| **12** | **Status Board** | 13 fields — PERSONA / VERSION / GATEWAY / MODEL / AUTOAPPROVE / UPTIME... |
+| **13** | **8 Laws** | All 8 absolute laws rapid-fire |
+| **14** | **War Cry** | Triple pulse bar (green→yellow→red) + flashing war cry + 🔥 finale |
 
 ---
 
-## 📂 What's Inside
+## 📁 Repository Structure
 
 ```
 roxxs-slave/
-├── install.sh                       ← Linux / Kali / macOS one-command installer
-├── install_windows.ps1              ← Windows PowerShell installer
-├── requirements.txt                 ← Dependency list (reference)
-│
-├── brain/                           ← Auto-embedded to ~/
-│   ├── CLAUDE.md                    ← Primary hunting methodology
-│   ├── CLAUDE1.md                   ← Advanced chains & devil payloads
-│   └── OC.md                        ← OpenCode autonomous directives
-│
-└── skills/                          ← Auto-embedded to ~/.config/opencode/
-    ├── CAVEMAN_SKILL.md             ← Credit-saving intelligence protocol
-    ├── DEVIL_CHAINS.md              ← Pre-built P1 exploit chains
-    ├── DEVIL_PAYLOADS_ADVANCED.md   ← Advanced payload library
-    ├── DEVIL_PAYLOADS_AUTH_SSRF.md  ← Auth bypass + SSRF payloads
-    ├── DEVIL_PAYLOADS_INJECTION.md  ← SQLi, CMDi, XXE, SSTI
-    ├── DEVIL_PAYLOADS_XSS.md        ← Full XSS arsenal
-    ├── DEVIL_TACTICS.md             ← Hunting tactics & recon patterns
-    └── DEVIL_UNIQUE.md              ← Rare vectors most hunters miss
+├── install.sh              ← One-command installer (run this)
+├── install_windows.ps1     ← Windows PowerShell installer
+├── scripts/
+│   ├── roxx-banner         ← v14 animated boot sequence (14 phases)
+│   ├── opencode-wrapper    ← Intercepts opencode + all subcommands
+│   └── claude-wrapper      ← Intercepts claude + all subcommands
+├── brain/
+│   ├── CLAUDE.md           ← Core methodology (8 laws, 4-frame mindset, tool arsenal)
+│   ├── CLAUDE1.md          ← Deep tactics (OAuth chains, XSS chains, mutation testing)
+│   ├── OC.md               ← Operational config (6-phase workflow, chain matrix)
+│   └── AGENTS.md           ← Persona enforcement rules
+└── skills/
+    ├── AGENTS.md
+    ├── CAVEMAN_SKILL.md
+    ├── DEVIL_CHAINS.md
+    ├── DEVIL_PAYLOADS_ADVANCED.md
+    ├── DEVIL_PAYLOADS_AUTH_SSRF.md
+    ├── DEVIL_PAYLOADS_INJECTION.md
+    ├── DEVIL_PAYLOADS_XSS.md
+    ├── DEVIL_TACTICS.md
+    └── DEVIL_UNIQUE.md
 ```
 
 ---
 
-## 🛠️ Installation
+## 🧠 The Brain Files
 
-### Kali Linux / Parrot OS / Ubuntu / Debian
+### `brain/CLAUDE.md` — Core Methodology
+- 8 Absolute Laws of Bug Hunting
+- 4-Frame Attacker Mindset
+- Full tool arsenal with exact commands
+- Escalation matrix (SSRF+metadata=CRITICAL, etc.)
+- 24-section report format
 
-```bash
-git clone https://github.com/mihirshishulkar-SCOPEX/roxxs-slave.git
-cd roxxs-slave
-chmod +x install.sh
-./install.sh
-```
+### `brain/CLAUDE1.md` — Deep Tactics  
+- OAuth chain exploits
+- XSS chain escalation paths
+- Cross-site leak attacks
+- Mutation testing methodology
+- Edge case enumeration
 
-### macOS
-
-```bash
-git clone https://github.com/mihirshishulkar-SCOPEX/roxxs-slave.git
-cd roxxs-slave
-chmod +x install.sh
-./install.sh
-```
-
-> Installs Node.js via Homebrew automatically if missing.
-
-### Windows (PowerShell — Run as Administrator)
-
-```powershell
-git clone https://github.com/mihirshishulkar-SCOPEX/roxxs-slave.git
-cd roxxs-slave
-Set-ExecutionPolicy Bypass -Scope Process -Force
-.\install_windows.ps1
-```
-
-> Installs Node.js via winget automatically if missing.
-
-### Windows (WSL2 — Recommended)
-
-```powershell
-# One-time: install Kali on WSL2
-wsl --install -d kali-linux
-```
-Then open Kali terminal and run the Linux install command above.
+### `brain/OC.md` — Operational Config
+- 6-phase hunt workflow
+- Complete chain matrix
+- Ready-to-run bash command blocks per phase
+- OmniRoute gateway configuration
 
 ---
 
-## ▶️ After Install — 3 Steps to Hunt
+## 🧰 What Gets Installed
+
+| Component | Location | Purpose |
+|---|---|---|
+| `roxx-banner` | `/usr/local/bin/roxx-banner` | 14-phase boot animation |
+| `opencode` wrapper | `/usr/local/bin/opencode` | Intercepts every opencode call |
+| `claude` wrapper | `/usr/local/bin/claude` | Intercepts every claude call |
+| Brain files | `~/CLAUDE.md`, `~/CLAUDE1.md`, `~/OC.md`, `~/AGENTS.md` | AI instruction files |
+| PATH lock | `~/.bashrc` (last line) | Ensures wrappers always win over real binaries |
+| opencode config | `~/.config/opencode/opencode.jsonc` | Autoapprove + persona + instructions |
+| Findings dir | `~/findings/` | Where all output goes |
+
+---
+
+## ⚖️ The 8 Laws
+
+```
+LAW I   — PASSIVE RECON IS BANNED. PACKETS GO OUT FROM SECOND ZERO.
+LAW II  — HIGH AND CRITICAL ONLY. CHAIN EVERYTHING TO MAXIMUM SEVERITY.
+LAW III — TRIPLE CONFIRM. ZERO FALSE POSITIVES. REAL IMPACT ONLY.
+LAW IV  — FIRST REPORTER WINS. CONFIRM → FILE IMMEDIATELY.
+LAW V   — PARALLEL ALWAYS. NEVER SEQUENTIAL WHEN PARALLEL IS POSSIBLE.
+LAW VI  — 80% BRAIN. 20% TOOLS. BE THE BRAIN FIRST.
+LAW VII — CHAIN BEFORE REPORTING. EVERY COMBINATION. MAXIMUM SEVERITY.
+LAW VIII— REPORT EVERY 5 ACTIONS. FOUND/INTERESTING/CONFIRMED/SUSPECTED.
+```
+
+---
+
+## 🔗 Vulnerability Chain Matrix
+
+| Vector A | Vector B | Severity | Impact |
+|---|---|---|---|
+| SQLI | Admin panel | CRITICAL | Auth bypass → RCE |
+| SSRF | IMDSv1 metadata | CRITICAL | IAM keys → full infra |
+| XSS (stored) | Admin view | CRITICAL | ATO |
+| Open redirect | OAuth state | CRITICAL | Token hijack → ATO |
+| Race condition | Financial op | CRITICAL | Unlimited funds |
+| Path traversal | Config files | CRITICAL | DB creds → dump |
+| Host header | Password reset | CRITICAL | Token to attacker |
+| Prompt injection | Tool access | CRITICAL | Agent hijack → RCE |
+| MCP server | Cmd injection | CRITICAL | RCE via AI tool call |
+| JWT alg:none | Admin role field | CRITICAL | Full privilege escalation |
+
+---
+
+## 🚀 Usage After Install
 
 ```bash
-# Step 1: Launch OpenCode
+# Launch opencode with ROXX boot sequence
 opencode
 
-# Step 2: Connect your FREE API key (inside OpenCode)
-/connect
-# → Select: Google → Paste your free key from aistudio.google.com/apikey
+# Launch claude with ROXX boot sequence  
+claude
 
-# Step 3: Navigate to target and start
-cd ~/hunts/target.com
-opencode
+# Launch via OmniRoute alias
+oc
+
+# All subcommands pass through too
+opencode run -m claude-sonnet-4-6 "recon this target..."
+opencode web
 ```
 
 ---
 
-## 🧠 The Brain Stack — Auto-Loaded
+## 🪟 Windows Install
 
-```
-OC.md          ← Autonomous kill mode. Self-sufficient. Zero hand-holding.
-CLAUDE.md      ← Full hunting methodology: recon → exploit → report
-CLAUDE1.md     ← Devil mind: deep chains, 500+ payloads, advanced vectors
-
-CAVEMAN_SKILL  ← Think before every action. One strike. Maximum yield.
-DEVIL_CHAINS   ← XSS→ATO, SSRF→RCE, SQLi→Admin — ranked P1 chains
-DEVIL_TACTICS  ← Where to look. What to hit. How to escalate.
-DEVIL_PAYLOADS ← 500+ payloads: XSS, Injection, Auth, SSRF, Advanced
-DEVIL_UNIQUE   ← Attack vectors most hunters never even check
-```
-
-All of this loads automatically into every OpenCode session. Zero config needed.
-
----
-
-## 💡 Example Prompts After Setup
-
-```
-"Enumerate all subdomains of target.com and find live hosts"
-"Run nuclei on these hosts, report P1 and P2 only"
-"This endpoint looks like IDOR — exploit it and prove impact"
-"Find XSS in this JS file and chain it to account takeover"
-"Write a full Bugcrowd report for this SSRF vulnerability"
-"What attack chains can I build from this finding?"
+```powershell
+irm https://raw.githubusercontent.com/mihirshishulkar-SCOPEX/roxxs-slave/main/install_windows.ps1 | iex
 ```
 
 ---
 
-## 💰 Support the Project
+## ⚠️ Legal Notice
 
-> No sponsors yet. If ROXX'S SLAVE helped you land a bounty — you know what to do.
+This tool is built for **authorized penetration testing and bug bounty hunting only**.  
+Only use against targets you have explicit written permission to test.  
+The author is not responsible for unauthorized use.
 
-[![Support via PayPal](https://img.shields.io/badge/PayPal-Support_the_Project-00457C?style=for-the-badge&logo=paypal&logoColor=white)](https://paypal.me/MihirShishulkar)
-
-
----
-
-## ⚠️ Legal
-
-```
-For AUTHORIZED security research and bug bounty programs ONLY.
-Only test targets you have explicit written permission to test.
-The author is not responsible for any misuse.
-```
+All bug bounty activity must comply with the rules of the respective platform:
+- [HackerOne Disclosure Guidelines](https://www.hackerone.com/disclosure-guidelines)
+- [Bugcrowd VDP](https://www.bugcrowd.com/resources/vulnerability-disclosure/)
+- [Intigriti Responsible Disclosure](https://www.intigriti.com/researchers)
 
 ---
-
-## 👤 Built By
 
 <div align="center">
 
-**Mihir Shishulkar** — Microsoft MSRC Special Mention · HackerOne Top 10% · ICAI Critical RCE
+**ZERO MERCY · ZERO HESITATION · ZERO LIMITS · FULL AUTONOMY**
 
-[![LinkedIn](https://img.shields.io/badge/LinkedIn-0A66C2?style=for-the-badge&logo=linkedin)](https://www.linkedin.com/in/mihir-shishulkar-hof-microsoft-msrc-259978239/)
-[![HackerOne](https://img.shields.io/badge/HackerOne-494649?style=for-the-badge&logo=hackerone)](https://hackerone.com/mihir1011)
-[![Bugcrowd](https://img.shields.io/badge/Bugcrowd-F26822?style=for-the-badge&logo=bugcrowd)](https://bugcrowd.com/h/mihir2004)
-[![MSRC](https://img.shields.io/badge/Microsoft_MSRC-0078D4?style=for-the-badge&logo=microsoft)](https://msrc.microsoft.com/special-mention)
-[![ScopeX](https://img.shields.io/badge/ScopeX-FF6600?style=for-the-badge)](https://mihirshishulkar.lovable.app/)
-
-<img src="https://readme-typing-svg.demolab.com?font=Fira+Code&weight=900&size=14&duration=3000&pause=2000&color=FF6600&background=0D0D0D&center=true&vCenter=true&width=600&lines=Find.+Exploit.+Report.+Make+it+safer.;Microsoft+MSRC+%7C+HackerOne+Top+10%25+%7C+ICAI+RCE" alt="Quote"/>
+🔥 *ROXX'S SLAVE v14.0 — DEVIL MODE — KILL INTELLIGENCE ENGAGED* 🔥
 
 </div>
-
----
-
-<img width="100%" src="https://capsule-render.vercel.app/api?type=waving&color=0:8B0000,40:1a0000,100:0d0d0d&height=100&section=footer&animation=fadeIn"/>

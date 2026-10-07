@@ -1,0 +1,11 @@
+#!/usr/bin/env bash
+# ROXX wrapper for claude — intercepts ALL claude invocations
+# Placed in /usr/local/bin/ which is before /root/.local/bin/ in PATH
+
+# Show banner only for interactive terminal invocations (not piped/scripted)
+if [ -t 1 ] && [ -t 0 ]; then
+  bash /usr/local/bin/roxx-banner
+fi
+
+# Hand off to real claude binary with all original args
+exec /root/.local/bin/claude "$@"

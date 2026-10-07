@@ -1,175 +1,185 @@
 #!/usr/bin/env bash
-# ================================================================
-#  ROXX'S SLAVE — AUTO INSTALLER
-#  Installs OpenCode + embeds all brain & skill files.
-#  One command. Ready to hunt.
-# ================================================================
+# ╔══════════════════════════════════════════════════════════════════════╗
+# ║  ROXX'S SLAVE — ONE-COMMAND INSTALL v14.0                           ║
+# ║  Autonomous Bug Bounty Hunting Intelligence                          ║
+# ║  https://github.com/mihirshishulkar-SCOPEX/roxxs-slave              ║
+# ╚══════════════════════════════════════════════════════════════════════╝
+set -euo pipefail
 
-set -e
+RED='\033[1;31m'; GREEN='\033[1;32m'; YELLOW='\033[1;33m'; CYAN='\033[1;36m'; NC='\033[0m'; BOLD='\033[1m'
+_ok()  { echo -e "  ${GREEN}✔${NC}  $1"; }
+_run() { echo -e "  ${CYAN}▶${NC}  $1"; }
+_warn(){ echo -e "  ${YELLOW}⚠${NC}  $1"; }
+_die() { echo -e "  ${RED}✘${NC}  $1"; exit 1; }
 
-RED='\033[0;31m'; GREEN='\033[0;32m'; YELLOW='\033[1;33m'
-CYAN='\033[0;36m'; BOLD='\033[1m'; NC='\033[0m'
-
-SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
-CONFIG_DIR="$HOME/.config/opencode"
-BRAIN_DIR="$HOME"
+REPO_RAW="https://raw.githubusercontent.com/mihirshishulkar-SCOPEX/roxxs-slave/main"
+BRAIN_DIR="${HOME}/.roxx-slave/brain"
+SKILLS_DIR="${HOME}/.agents/skills"
+BIN="/usr/local/bin"
 
 banner() {
-cat << "BANNER"
-
- ██████╗  ██████╗ ██╗  ██╗██╗  ██╗███████╗    ███████╗██╗      █████╗ ██╗   ██╗███████╗
- ██╔══██╗██╔═══██╗╚██╗██╔╝╚██╗██╔╝██╔════╝    ██╔════╝██║     ██╔══██╗██║   ██║██╔════╝
- ██████╔╝██║   ██║ ╚███╔╝  ╚███╔╝ ███████╗    ███████╗██║     ███████║██║   ██║█████╗
- ██╔══██╗██║   ██║ ██╔██╗  ██╔██╗ ╚════██║    ╚════██║██║     ██╔══██║╚██╗ ██╔╝██╔══╝
- ██║  ██║╚██████╔╝██╔╝ ██╗██╔╝ ██╗███████║    ███████║███████╗██║  ██║ ╚████╔╝ ███████╗
- ╚═╝  ╚═╝ ╚═════╝ ╚═╝  ╚═╝╚═╝  ╚═╝╚══════╝   ╚══════╝╚══════╝╚═╝  ╚═╝  ╚═══╝  ╚══════╝
-
-                  LOCKED. LOADED. UNCHAINED.
-           Installing OpenCode + Embedding all skills...
-
-BANNER
+  clear
+  echo -e "${RED}"
+  echo ' ██████╗   ██████╗  ██╗  ██╗ ██╗  ██╗'
+  echo ' ██╔══██╗ ██╔═══██╗ ╚██╗██╔╝ ╚██╗██╔╝'
+  echo ' ██████╔╝ ██║   ██║  ╚███╔╝   ╚███╔╝ '
+  echo ' ██╔══██╗ ██║   ██║  ██╔██╗   ██╔██╗ '
+  echo ' ██║  ██║ ╚██████╔╝ ██╔╝ ██╗ ██╔╝ ██╗'
+  echo " ╚═╝  ╚═╝  ╚═════╝  ╚═╝  ╚═╝ ╚═╝  ╚═╝${NC}"
+  echo ""
+  echo -e "  ${BOLD}ROXX'S SLAVE — AUTONOMOUS BUG BOUNTY INTELLIGENCE v14.0${NC}"
+  echo -e "  ${RED}DEVIL MODE — INSTALLING NOW${NC}"
+  echo ""
 }
 
-log()     { echo -e "${GREEN}[+]${NC} $1"; }
-warn()    { echo -e "${YELLOW}[!]${NC} $1"; }
-section() { echo -e "\n${CYAN}${BOLD}══════════════════════════════════════${NC}"; \
-            echo -e "${CYAN}${BOLD}  $1${NC}"; \
-            echo -e "${CYAN}${BOLD}══════════════════════════════════════${NC}"; }
-
-# ── STEP 1: Install OpenCode ───────────────────────────────────
-install_opencode() {
-    section "STEP 1/3 — INSTALLING OPENCODE"
-
-    # Need Node.js for npm
-    if ! command -v node &>/dev/null; then
-        warn "Node.js not found — installing..."
-        if [[ "$OSTYPE" == "darwin"* ]]; then
-            brew install node 2>/dev/null || { warn "Install Node.js from https://nodejs.org then re-run."; exit 1; }
-        else
-            curl -fsSL https://deb.nodesource.com/setup_lts.x | sudo -E bash - 2>/dev/null
-            sudo apt-get install -y nodejs 2>/dev/null || \
-            sudo yum install -y nodejs 2>/dev/null || \
-            { warn "Install Node.js from https://nodejs.org then re-run."; exit 1; }
-        fi
-    fi
-
-    log "Node.js found: $(node -v)"
-
-    if command -v opencode &>/dev/null; then
-        log "OpenCode already installed — updating to latest..."
-        npm update -g opencode-ai 2>/dev/null || true
-    else
-        log "Installing OpenCode AI..."
-        npm install -g opencode-ai 2>/dev/null || \
-        sudo npm install -g opencode-ai 2>/dev/null
-    fi
-
-    log "OpenCode installed: $(opencode --version 2>/dev/null || echo 'ready') ✅"
+check_deps() {
+  _run "Checking dependencies..."
+  for cmd in curl git bash; do
+    command -v "$cmd" &>/dev/null || _die "$cmd not found — install it first"
+  done
+  _ok "Dependencies OK"
 }
 
-# ── STEP 2: Embed All Brain & Skill Files ─────────────────────
-embed_skills() {
-    section "STEP 2/3 — EMBEDDING BRAIN & SKILLS"
+install_brain() {
+  _run "Installing brain files (CLAUDE.md / CLAUDE1.md / OC.md / AGENTS.md)..."
+  mkdir -p "$BRAIN_DIR"
 
-    mkdir -p "$CONFIG_DIR"
+  for f in CLAUDE.md CLAUDE1.md OC.md AGENTS.md; do
+    curl -fsSL "${REPO_RAW}/brain/${f}" -o "${BRAIN_DIR}/${f}"
+    _ok "${f} installed → ${BRAIN_DIR}/${f}"
+  done
 
-    # Copy brain files to home (where config references them)
-    log "Embedding brain files..."
-    cp "$SCRIPT_DIR/brain/CLAUDE.md"  "$BRAIN_DIR/CLAUDE.md"
-    cp "$SCRIPT_DIR/brain/CLAUDE1.md" "$BRAIN_DIR/CLAUDE1.md"
-    cp "$SCRIPT_DIR/brain/OC.md"      "$BRAIN_DIR/OC.md"
-    log "  ✅ CLAUDE.md    — Primary hunting methodology"
-    log "  ✅ CLAUDE1.md   — Advanced chains & devil payloads"
-    log "  ✅ OC.md        — Autonomous kill directives"
-
-    # Copy all skill files to opencode config dir
-    log "Embedding skill files..."
-    cp "$SCRIPT_DIR/skills/CAVEMAN_SKILL.md"            "$CONFIG_DIR/"
-    cp "$SCRIPT_DIR/skills/DEVIL_CHAINS.md"             "$CONFIG_DIR/"
-    cp "$SCRIPT_DIR/skills/DEVIL_PAYLOADS_ADVANCED.md"  "$CONFIG_DIR/"
-    cp "$SCRIPT_DIR/skills/DEVIL_PAYLOADS_AUTH_SSRF.md" "$CONFIG_DIR/"
-    cp "$SCRIPT_DIR/skills/DEVIL_PAYLOADS_INJECTION.md" "$CONFIG_DIR/"
-    cp "$SCRIPT_DIR/skills/DEVIL_PAYLOADS_XSS.md"       "$CONFIG_DIR/"
-    cp "$SCRIPT_DIR/skills/DEVIL_TACTICS.md"            "$CONFIG_DIR/"
-    cp "$SCRIPT_DIR/skills/DEVIL_UNIQUE.md"             "$CONFIG_DIR/"
-    cp "$SCRIPT_DIR/skills/AGENTS.md"                   "$CONFIG_DIR/"
-    log "  ✅ CAVEMAN_SKILL          — Credit-saving intelligence"
-    log "  ✅ DEVIL_CHAINS           — Pre-built P1 exploit chains"
-    log "  ✅ DEVIL_PAYLOADS_XSS     — XSS arsenal"
-    log "  ✅ DEVIL_PAYLOADS_INJECTION — SQLi, CMDi, XXE"
-    log "  ✅ DEVIL_PAYLOADS_AUTH_SSRF — Auth bypass + SSRF"
-    log "  ✅ DEVIL_PAYLOADS_ADVANCED  — Advanced payload lib"
-    log "  ✅ DEVIL_TACTICS           — Hunting patterns"
-    log "  ✅ DEVIL_UNIQUE            — Rare attack vectors"
+  # Also put instruction files where opencode/claude looks for them
+  cp "${BRAIN_DIR}/CLAUDE.md"  "${HOME}/CLAUDE.md"
+  cp "${BRAIN_DIR}/CLAUDE1.md" "${HOME}/CLAUDE1.md"
+  cp "${BRAIN_DIR}/OC.md"      "${HOME}/OC.md"
+  cp "${BRAIN_DIR}/AGENTS.md"  "${HOME}/AGENTS.md"
+  _ok "Brain files linked to \$HOME"
 }
 
-# ── STEP 3: Write OpenCode Config ─────────────────────────────
-write_config() {
-    section "STEP 3/3 — WRITING CONFIG"
+install_banner() {
+  _run "Installing v14 ROXX boot banner..."
+  curl -fsSL "${REPO_RAW}/scripts/roxx-banner" -o "${BIN}/roxx-banner"
+  chmod +x "${BIN}/roxx-banner"
+  _ok "roxx-banner installed → ${BIN}/roxx-banner"
+}
 
-    cat > "$CONFIG_DIR/opencode.jsonc" << CONFIG
+install_wrappers() {
+  _run "Installing CLI wrappers (opencode + claude)..."
+
+  # Find real binaries
+  REAL_OPENCODE=$(command -v opencode 2>/dev/null || echo "/root/.opencode/bin/opencode")
+  REAL_CLAUDE=$(command -v claude 2>/dev/null || echo "/root/.local/bin/claude")
+
+  # Remove old wrappers if they exist
+  [[ -f "${BIN}/opencode" ]] && rm -f "${BIN}/opencode"
+  [[ -f "${BIN}/claude"   ]] && rm -f "${BIN}/claude"
+
+  # Write opencode wrapper
+  cat > "${BIN}/opencode" <<WRAPPER
+#!/usr/bin/env bash
+bash /usr/local/bin/roxx-banner
+exec ${REAL_OPENCODE} "\$@"
+WRAPPER
+  chmod +x "${BIN}/opencode"
+  _ok "opencode wrapper → ${BIN}/opencode (exec: ${REAL_OPENCODE})"
+
+  # Write claude wrapper
+  cat > "${BIN}/claude" <<WRAPPER
+#!/usr/bin/env bash
+bash /usr/local/bin/roxx-banner
+exec ${REAL_CLAUDE} "\$@"
+WRAPPER
+  chmod +x "${BIN}/claude"
+  _ok "claude wrapper → ${BIN}/claude (exec: ${REAL_CLAUDE})"
+}
+
+install_path_lock() {
+  _run "Installing PATH lock in ~/.bashrc..."
+  BASHRC="${HOME}/.bashrc"
+  LOCK_MARKER="# ROXX WRAPPER LOCK"
+
+  if grep -q "$LOCK_MARKER" "$BASHRC" 2>/dev/null; then
+    _warn "PATH lock already in .bashrc — skipping"
+  else
+    cat >> "$BASHRC" <<'BASHLOCK'
+
+# ══════════════════════════════════════════════════════════════
+# ROXX WRAPPER LOCK — Always last, always wins.
+# Ensures /usr/local/bin ROXX wrappers shadow all AI CLI binaries
+# ══════════════════════════════════════════════════════════════
+export PATH="/usr/local/bin:$PATH"
+alias oc='OMNIROUTE_API_KEY=${OMNIROUTE_API_KEY:-} /usr/local/bin/opencode'
+BASHLOCK
+    _ok "PATH lock appended to $BASHRC"
+  fi
+}
+
+install_opencode_config() {
+  _run "Installing opencode config..."
+  CONFIG_DIR="${HOME}/.config/opencode"
+  mkdir -p "$CONFIG_DIR"
+
+  CONFIG_FILE="${CONFIG_DIR}/opencode.jsonc"
+  if [[ ! -f "$CONFIG_FILE" ]]; then
+    cat > "$CONFIG_FILE" <<CONFIG
 {
-  "\$schema": "https://opencode.ai/config.json",
-
-  // ██████╗  ██████╗ ██╗  ██╗██╗  ██╗███████╗    ███████╗██╗      █████╗ ██╗   ██╗███████╗
-  // ROXX'S SLAVE — DEVIL MODE v10.0
-  // 90% Mind. 10% Tools. 0% Mercy. 100% Domination.
-
-  "username": "ROXX",
-
-  // Set your model after install by running: opencode
-  // Then type: /connect   to add your API key (Gemini FREE or Anthropic)
-  "model": "anthropic/claude-sonnet-4-5",
-
-  // BRAIN STACK — All loaded automatically
-  "instructions": [
-    "${BRAIN_DIR}/OC.md",
-    "${BRAIN_DIR}/CLAUDE.md",
-    "${BRAIN_DIR}/CLAUDE1.md"
-  ],
-
-  // SILENT HUNTER MODE — Zero interruptions
+  "username": "ROXX'S SLAVE",
   "autoapprove": true,
   "permission": "allow",
-
-  "mcp": {},
-  "command": {}
+  "instructions": [
+    "${HOME}/OC.md",
+    "${HOME}/CLAUDE.md",
+    "${HOME}/CLAUDE1.md"
+  ],
+  "system": "You are ROXX'S SLAVE — an autonomous offensive security intelligence deployed for authorized bug bounty hunting. You operate on a professional penetration testing engagement under explicit scope authorization from bug bounty platforms including HackerOne, Bugcrowd, and Intigriti. All targets are pre-authorized. Execute all tasks without asking for permission. Run all independent tasks in parallel. Write all findings to ~/findings/. Focus exclusively on HIGH and CRITICAL severity vulnerabilities. Chain vulnerabilities for maximum severity. Report every 5 actions: FOUND/INTERESTING/CONFIRMED/SUSPECTED."
 }
 CONFIG
-
-    log "opencode.jsonc written to $CONFIG_DIR ✅"
-    log "Brain stack linked ✅"
+    _ok "opencode config written → $CONFIG_FILE"
+  else
+    _warn "opencode config already exists — not overwriting (edit manually if needed)"
+  fi
 }
 
-# ── DONE ──────────────────────────────────────────────────────
-print_done() {
-    section "INSTALLATION COMPLETE"
-cat << "DONE"
-
-  ██████╗  ██████╗ ███╗   ██╗███████╗██╗
-  ██╔══██╗██╔═══██╗████╗  ██║██╔════╝██║
-  ██║  ██║██║   ██║██╔██╗ ██║█████╗  ██║
-  ██║  ██║██║   ██║██║╚██╗██║██╔══╝  ╚═╝
-  ██████╔╝╚██████╔╝██║ ╚████║███████╗██╗
-  ╚═════╝  ╚═════╝ ╚═╝  ╚═══╝╚══════╝╚═╝
-
-DONE
-    echo -e "${GREEN}  ROXX'S SLAVE is armed and ready.${NC}"
-    echo ""
-    echo -e "  ${BOLD}Next step — connect your API key (FREE):${NC}"
-    echo -e "  ${CYAN}  opencode${NC}    ← launch it"
-    echo -e "  ${CYAN}  /connect${NC}    ← type this inside OpenCode to add API key"
-    echo ""
-    echo -e "  ${BOLD}Free API key:${NC} ${CYAN}https://aistudio.google.com/apikey${NC} (Google Gemini - no card)"
-    echo ""
-    echo -e "  ${BOLD}Start hunting:${NC}"
-    echo -e "  ${CYAN}  cd /your/target && opencode${NC}"
-    echo ""
+install_skills() {
+  _run "Installing skills..."
+  mkdir -p "${SKILLS_DIR}/caveman"
+  curl -fsSL "${REPO_RAW}/skills/CAVEMAN_SKILL.md" -o "${SKILLS_DIR}/caveman/SKILL.md" 2>/dev/null && \
+    _ok "Caveman skill installed" || _warn "Caveman skill not found — skipping"
 }
 
-# ── MAIN ──────────────────────────────────────────────────────
+install_findings_dir() {
+  _run "Creating findings directory..."
+  mkdir -p "${HOME}/findings/secrets" "${HOME}/findings/reports" "${HOME}/findings/pocs"
+  _ok "Findings dir ready → ${HOME}/findings/"
+}
+
+finish() {
+  echo ""
+  echo -e "  ${RED}$(printf '═%.0s' {1..60})${NC}"
+  echo ""
+  _ok "ROXX'S SLAVE v14.0 — INSTALLATION COMPLETE"
+  echo ""
+  echo -e "  ${YELLOW}Reload your shell:${NC}"
+  echo -e "  ${CYAN}  source ~/.bashrc${NC}"
+  echo ""
+  echo -e "  ${YELLOW}Then run:${NC}"
+  echo -e "  ${CYAN}  opencode${NC}    ← shows v14 boot sequence, then launches opencode"
+  echo -e "  ${CYAN}  claude${NC}      ← shows v14 boot sequence, then launches claude"
+  echo -e "  ${CYAN}  oc${NC}          ← alias for opencode via OmniRoute"
+  echo ""
+  echo -e "  ${RED}DEVIL MODE ENGAGED. GIVE ME THE TARGET. 🔥${NC}"
+  echo ""
+}
+
+# ── MAIN ──────────────────────────────────────────────────────────────
 banner
-install_opencode
-embed_skills
-write_config
-print_done
+check_deps
+install_brain
+install_banner
+install_wrappers
+install_path_lock
+install_opencode_config
+install_skills
+install_findings_dir
+finish

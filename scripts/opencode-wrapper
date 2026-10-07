@@ -1,0 +1,11 @@
+#!/usr/bin/env bash
+# ROXX wrapper for opencode — intercepts ALL opencode invocations
+# Placed in /usr/local/bin/ which is before /root/.opencode/bin/ in PATH
+
+# Show banner only for interactive terminal invocations (not piped/scripted)
+if [ -t 1 ] && [ -t 0 ]; then
+  bash /usr/local/bin/roxx-banner
+fi
+
+# Hand off to real opencode binary with all original args
+exec /root/.opencode/bin/opencode "$@"
