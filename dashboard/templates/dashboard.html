@@ -1,0 +1,658 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1"/>
+<title>ROXX'S SLAVE — LIVE HUNTING DASHBOARD v14.1</title>
+<script src="https://cdn.socket.io/4.7.2/socket.io.min.js"></script>
+<style>
+:root{
+  --bg:#050505;--bg2:#0a0a0a;--bg3:#111;--border:#1a1a1a;--border2:#222;
+  --red:#ff2020;--red2:#cc0000;--orange:#ff6600;--green:#00ff41;--green2:#00cc33;
+  --yellow:#ffcc00;--cyan:#00ccff;--purple:#aa00ff;--white:#e8e8e8;--dim:#555;
+  --card:#0d0d0d;--font:'Share Tech Mono',monospace;
+}
+*{margin:0;padding:0;box-sizing:border-box;}
+body{background:var(--bg);color:var(--white);font-family:var(--font);font-size:13px;overflow-x:hidden;}
+@import url('https://fonts.googleapis.com/css2?family=Share+Tech+Mono&display=swap');
+
+/* ── Scrollbar ── */
+::-webkit-scrollbar{width:4px;height:4px;}
+::-webkit-scrollbar-track{background:var(--bg2);}
+::-webkit-scrollbar-thumb{background:var(--red2);border-radius:2px;}
+
+/* ── Header ── */
+#header{
+  position:fixed;top:0;left:0;right:0;z-index:100;
+  background:var(--bg2);border-bottom:1px solid var(--red2);
+  padding:10px 20px;display:flex;align-items:center;gap:20px;
+}
+#header .logo{color:var(--red);font-size:16px;font-weight:900;letter-spacing:2px;}
+#header .logo span{color:var(--orange);}
+#status-dot{width:8px;height:8px;border-radius:50%;background:var(--red);animation:pulse 1.2s infinite;}
+#status-dot.live{background:var(--green);}
+@keyframes pulse{0%,100%{opacity:1;}50%{opacity:.3;}}
+#header .ts{color:var(--dim);font-size:11px;margin-left:auto;}
+#header .ts span{color:var(--cyan);}
+
+/* ── Layout ── */
+#layout{display:grid;grid-template-columns:320px 1fr 320px;grid-template-rows:auto;
+  margin-top:50px;height:calc(100vh - 50px);overflow:hidden;}
+
+/* ── Panels ── */
+.panel{border-right:1px solid var(--border2);overflow-y:auto;padding:12px;}
+.panel:last-child{border-right:none;border-left:1px solid var(--border2);}
+.panel-title{
+  font-size:10px;letter-spacing:3px;color:var(--dim);text-transform:uppercase;
+  border-bottom:1px solid var(--border);padding-bottom:6px;margin-bottom:10px;
+  display:flex;align-items:center;gap:8px;
+}
+.panel-title .badge{
+  background:var(--red2);color:#fff;font-size:9px;
+  padding:1px 5px;border-radius:2px;
+}
+
+/* ── Stats bar ── */
+#stats-bar{
+  grid-column:1/-1;display:flex;gap:2px;padding:8px 12px;
+  background:var(--bg2);border-bottom:1px solid var(--border2);
+  overflow-x:auto;flex-shrink:0;
+}
+.stat-box{
+  flex:1;min-width:90px;background:var(--card);border:1px solid var(--border);
+  padding:6px 10px;text-align:center;
+}
+.stat-box .num{font-size:22px;color:var(--red);font-weight:900;}
+.stat-box .lbl{font-size:9px;color:var(--dim);letter-spacing:2px;margin-top:2px;}
+
+/* ── Target card ── */
+.target-card{
+  background:var(--card);border:1px solid var(--border2);
+  margin-bottom:8px;padding:10px;cursor:pointer;transition:border-color .2s;
+  position:relative;
+}
+.target-card:hover,.target-card.active{border-color:var(--red);}
+.target-card .domain{color:var(--white);font-size:13px;font-weight:700;margin-bottom:4px;}
+.target-card .program{color:var(--cyan);font-size:10px;}
+.target-card .platform-badge{
+  display:inline-block;font-size:9px;padding:1px 6px;border-radius:2px;
+  margin-left:6px;font-weight:700;
+}
+.platform-web{background:#003366;color:var(--cyan);}
+.platform-iot{background:#330033;color:#cc88ff;}
+.platform-wireless{background:#002200;color:var(--green);}
+.platform-mobile{background:#332200;color:var(--orange);}
+.platform-api{background:#1a0000;color:var(--red);}
+
+.target-card .stage-info{
+  display:flex;align-items:center;gap:6px;margin-top:6px;
+}
+.stage-tag{font-size:9px;color:var(--orange);letter-spacing:1px;}
+.progress-bar{flex:1;height:3px;background:var(--border2);border-radius:2px;overflow:hidden;}
+.progress-fill{height:100%;background:var(--red);transition:width .5s;}
+.progress-fill.done{background:var(--green);}
+.target-card .sev{
+  position:absolute;top:8px;right:8px;font-size:9px;padding:1px 5px;
+  font-weight:700;
+}
+.sev-CRITICAL{background:var(--red);color:#fff;}
+.sev-HIGH{background:var(--orange);color:#000;}
+.sev-MEDIUM{background:var(--yellow);color:#000;}
+
+/* ── Add target form ── */
+#add-form{
+  background:var(--card);border:1px solid var(--border2);
+  padding:12px;margin-bottom:10px;
+}
+#add-form input,#add-form select,#add-form textarea{
+  width:100%;background:var(--bg2);border:1px solid var(--border2);
+  color:var(--white);font-family:var(--font);font-size:12px;
+  padding:6px 8px;margin-bottom:6px;outline:none;
+}
+#add-form input:focus,#add-form select:focus{border-color:var(--red);}
+#add-form button{
+  width:100%;background:var(--red2);color:#fff;border:none;
+  font-family:var(--font);font-size:12px;padding:7px;
+  cursor:pointer;letter-spacing:2px;font-weight:700;
+  transition:background .2s;
+}
+#add-form button:hover{background:var(--red);}
+
+/* ── Hunt pipeline ── */
+#main-panel{overflow-y:auto;padding:12px;}
+
+.pipeline{display:flex;flex-direction:column;gap:10px;margin-bottom:16px;}
+.stage-row{
+  background:var(--card);border:1px solid var(--border2);padding:10px 14px;
+  display:flex;align-items:center;gap:12px;transition:border-color .3s;
+}
+.stage-row.active{border-color:var(--orange);box-shadow:0 0 8px rgba(255,102,0,.15);}
+.stage-row.done{border-color:var(--green2);}
+.stage-icon{font-size:18px;width:26px;text-align:center;}
+.stage-label{font-size:11px;color:var(--dim);letter-spacing:2px;width:120px;}
+.stage-label.active{color:var(--orange);}
+.stage-label.done{color:var(--green);}
+.stage-bar{flex:1;height:4px;background:var(--border2);border-radius:2px;overflow:hidden;}
+.stage-fill{height:100%;background:var(--orange);transition:width .6s;}
+.stage-fill.done{background:var(--green);}
+.stage-pct{font-size:10px;color:var(--dim);width:35px;text-align:right;}
+.stage-status{font-size:9px;width:70px;text-align:right;letter-spacing:1px;}
+.stage-status.running{color:var(--orange);animation:pulse 1.2s infinite;}
+.stage-status.done{color:var(--green);}
+.stage-status.pending{color:var(--dim);}
+
+/* ── Terminal / log ── */
+#terminal{
+  background:#000;border:1px solid var(--border2);padding:10px;
+  font-size:11px;line-height:1.6;height:220px;overflow-y:auto;
+  margin-bottom:10px;
+}
+#terminal .t-line{padding:1px 0;}
+#terminal .t-line.info{color:var(--green);}
+#terminal .t-line.warn{color:var(--orange);}
+#terminal .t-line.err{color:var(--red);}
+#terminal .t-line.out{color:var(--white);}
+#terminal .t-ts{color:var(--dim);margin-right:8px;}
+
+/* ── Tool runner ── */
+.tool-runner{
+  background:var(--card);border:1px solid var(--border2);padding:10px;margin-bottom:10px;
+}
+.tool-runner .tr-title{font-size:10px;color:var(--dim);letter-spacing:2px;margin-bottom:8px;}
+.tool-grid{display:grid;grid-template-columns:1fr 1fr;gap:6px;margin-bottom:8px;}
+.tool-btn{
+  background:var(--bg3);border:1px solid var(--border);
+  color:var(--white);font-family:var(--font);font-size:10px;
+  padding:6px 8px;cursor:pointer;text-align:left;transition:border-color .2s;
+  display:flex;align-items:center;gap:6px;
+}
+.tool-btn:hover{border-color:var(--cyan);color:var(--cyan);}
+.tool-btn .tb-icon{font-size:12px;}
+.tool-btn.iot{border-color:#330033;}
+.tool-btn.iot:hover{border-color:var(--purple);color:var(--purple);}
+.tool-btn.wireless{border-color:#002200;}
+.tool-btn.wireless:hover{border-color:var(--green);color:var(--green);}
+
+.cmd-input-row{display:flex;gap:6px;}
+#custom-cmd{
+  flex:1;background:var(--bg2);border:1px solid var(--border2);
+  color:var(--white);font-family:var(--font);font-size:11px;padding:6px 8px;
+}
+#custom-cmd:focus{outline:none;border-color:var(--red);}
+#run-cmd-btn{
+  background:var(--red2);color:#fff;border:none;
+  font-family:var(--font);font-size:11px;padding:6px 14px;cursor:pointer;
+}
+#run-cmd-btn:hover{background:var(--red);}
+
+/* ── Findings feed ── */
+.finding-card{
+  background:var(--card);border-left:3px solid var(--red);
+  padding:8px 10px;margin-bottom:6px;
+}
+.finding-card.CRITICAL{border-color:var(--red);}
+.finding-card.HIGH{border-color:var(--orange);}
+.finding-card.MEDIUM{border-color:var(--yellow);}
+.finding-card .fc-title{font-size:12px;color:var(--white);margin-bottom:3px;}
+.finding-card .fc-meta{font-size:9px;color:var(--dim);display:flex;gap:10px;}
+.finding-card .fc-type{color:var(--cyan);}
+.finding-card .fc-sev{font-weight:700;}
+.finding-card.CRITICAL .fc-sev{color:var(--red);}
+.finding-card.HIGH .fc-sev{color:var(--orange);}
+.finding-card .fc-preview{font-size:10px;color:var(--dim);margin-top:4px;
+  white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+
+/* ── Notification toast ── */
+#toast{
+  position:fixed;bottom:20px;right:20px;z-index:999;
+  max-width:320px;display:flex;flex-direction:column;gap:6px;
+}
+.toast-msg{
+  background:var(--card);border-left:3px solid var(--red);
+  padding:10px 14px;font-size:11px;animation:slideIn .3s ease;
+}
+.toast-msg.green{border-color:var(--green);}
+.toast-msg.orange{border-color:var(--orange);}
+@keyframes slideIn{from{opacity:0;transform:translateX(30px);}to{opacity:1;transform:none;}}
+
+/* ── IoT/Wireless section ── */
+.iot-panel{background:var(--card);border:1px solid #330033;padding:10px;margin-bottom:10px;}
+.iot-panel .ip-title{font-size:10px;color:#cc88ff;letter-spacing:2px;margin-bottom:8px;}
+.wireless-panel{background:var(--card);border:1px solid #002200;padding:10px;margin-bottom:10px;}
+.wireless-panel .wp-title{font-size:10px;color:var(--green);letter-spacing:2px;margin-bottom:8px;}
+.device-card{
+  background:var(--bg2);border:1px solid var(--border);
+  padding:6px 10px;margin-bottom:4px;font-size:11px;
+  display:flex;align-items:center;gap:10px;
+}
+.device-card .dc-ip{color:var(--cyan);width:120px;}
+.device-card .dc-type{color:var(--dim);flex:1;}
+.device-card .dc-vuln{color:var(--red);font-size:10px;}
+
+</style>
+</head>
+<body>
+
+<!-- HEADER -->
+<div id="header">
+  <div class="logo">ROXX'<span>S</span> SLAVE</div>
+  <div id="status-dot"></div>
+  <div style="font-size:10px;color:var(--dim);">LIVE HUNTING DASHBOARD v14.1</div>
+  <div class="ts">LAST UPDATE: <span id="last-ts">--</span></div>
+</div>
+
+<!-- STATS BAR -->
+<div style="margin-top:50px;" id="stats-area">
+  <div id="stats-bar">
+    <div class="stat-box"><div class="num" id="s-targets">0</div><div class="lbl">TARGETS</div></div>
+    <div class="stat-box"><div class="num" id="s-pocs">0</div><div class="lbl">PoCs</div></div>
+    <div class="stat-box"><div class="num" id="s-reports">0</div><div class="lbl">REPORTS</div></div>
+    <div class="stat-box"><div class="num" id="s-secrets">0</div><div class="lbl">SECRETS</div></div>
+    <div class="stat-box"><div class="num" id="s-chains">0</div><div class="lbl">CHAINS</div></div>
+    <div class="stat-box"><div class="num" id="s-iot">0</div><div class="lbl">IoT FINDS</div></div>
+    <div class="stat-box"><div class="num" id="s-wireless">0</div><div class="lbl">WIRELESS</div></div>
+    <div class="stat-box"><div class="num" id="s-recon">0</div><div class="lbl">RECON FILES</div></div>
+  </div>
+</div>
+
+<div id="layout">
+
+<!-- LEFT: TARGET LIST -->
+<div class="panel" id="left-panel">
+  <div class="panel-title">🎯 TARGETS <span class="badge" id="target-count">0</span></div>
+
+  <!-- Add target form -->
+  <div id="add-form">
+    <div style="font-size:10px;color:var(--red);letter-spacing:2px;margin-bottom:8px;">+ ADD TARGET</div>
+    <input id="f-domain"   placeholder="domain.com / 192.168.x.x / SSID" />
+    <select id="f-platform">
+      <option value="web">🌐 Web App</option>
+      <option value="api">🔌 API</option>
+      <option value="mobile">📱 Mobile</option>
+      <option value="iot">📡 IoT Device</option>
+      <option value="wireless">📶 Wireless / RF</option>
+    </select>
+    <select id="f-program">
+      <option>HackerOne</option><option>Bugcrowd</option>
+      <option>Intigriti</option><option>Private</option><option>YesWeHack</option>
+    </select>
+    <input id="f-scope"    placeholder="Scope / IP range / SSID range" />
+    <input id="f-bounty"   placeholder="Est. bounty ($)" />
+    <input id="f-tags"     placeholder="Tags (iot,firmware,wifi,web)" />
+    <textarea id="f-notes" rows="2" placeholder="Notes / recon intel"></textarea>
+    <button onclick="addTarget()">⚡ ACCEPT &amp; HUNT</button>
+  </div>
+
+  <div id="target-list"></div>
+</div>
+
+<!-- CENTER: HUNT PIPELINE + TERMINAL + TOOLS -->
+<div id="main-panel">
+
+  <!-- Pipeline -->
+  <div class="panel-title" style="margin-bottom:8px;">
+    ⚡ HUNT PIPELINE — <span id="active-target-label" style="color:var(--orange);">NO TARGET SELECTED</span>
+  </div>
+
+  <div class="pipeline" id="pipeline">
+    {% for s in stages %}
+    <div class="stage-row" id="stage-{{ s.id }}">
+      <div class="stage-icon">{{ s.icon }}</div>
+      <div class="stage-label" id="lbl-{{ s.id }}">{{ s.label }}</div>
+      <div class="stage-bar"><div class="stage-fill" id="fill-{{ s.id }}" style="width:0%"></div></div>
+      <div class="stage-pct" id="pct-{{ s.id }}">0%</div>
+      <div class="stage-status pending" id="sts-{{ s.id }}">PENDING</div>
+    </div>
+    {% endfor %}
+  </div>
+
+  <!-- IoT panel -->
+  <div class="iot-panel">
+    <div class="ip-title">📡 IoT / EMBEDDED DEVICES</div>
+    <div id="iot-devices">
+      <div style="color:var(--dim);font-size:10px;">No IoT targets active — add a target with platform: IoT</div>
+    </div>
+  </div>
+
+  <!-- Wireless panel -->
+  <div class="wireless-panel">
+    <div class="wp-title">📶 WIRELESS / RF HUNTING</div>
+    <div id="wireless-devices">
+      <div style="color:var(--dim);font-size:10px;">No wireless targets active — add a target with platform: Wireless</div>
+    </div>
+  </div>
+
+  <!-- Tool runner -->
+  <div class="tool-runner">
+    <div class="tr-title">🔧 QUICK TOOLS</div>
+    <div class="tool-grid">
+      <button class="tool-btn" onclick="runTool('subfinder -d {domain} -silent | tee {dir}/subs.txt','subfinder')">
+        <span class="tb-icon">🔍</span>subfinder
+      </button>
+      <button class="tool-btn" onclick="runTool('httpx -l {dir}/subs.txt -silent -title -tech-detect -o {dir}/httpx.txt','httpx')">
+        <span class="tb-icon">🌐</span>httpx probe
+      </button>
+      <button class="tool-btn" onclick="runTool('nuclei -l {dir}/httpx.txt -severity high,critical -o {dir}/nuclei.txt','nuclei')">
+        <span class="tb-icon">⚡</span>nuclei HIGH+CRIT
+      </button>
+      <button class="tool-btn" onclick="runTool('katana -list {dir}/httpx.txt -silent -o {dir}/katana.txt','katana')">
+        <span class="tb-icon">🕷️</span>katana crawl
+      </button>
+      <button class="tool-btn" onclick="runTool('ffuf -w /usr/share/wordlists/dirbuster/directory-list-2.3-medium.txt -u https://{domain}/FUZZ -mc 200,301,302,403 -o {dir}/ffuf.json -of json','ffuf')">
+        <span class="tb-icon">💣</span>ffuf dirbrute
+      </button>
+      <button class="tool-btn" onclick="runTool('gau {domain} | tee {dir}/gau.txt | wc -l','gau wayback')">
+        <span class="tb-icon">📜</span>GAU / wayback
+      </button>
+      <!-- IoT tools -->
+      <button class="tool-btn iot" onclick="runTool('nmap -sV -sC -p 23,80,443,8080,8443,554,9000,4786,102,47808,44818 --script vuln {domain} -oN {dir}/nmap_iot.txt','nmap IoT')">
+        <span class="tb-icon">📡</span>nmap IoT ports
+      </button>
+      <button class="tool-btn iot" onclick="runTool('nuclei -t /root/nuclei-templates/network/ -t /root/nuclei-templates/iot/ -target {domain} -o {dir}/nuclei_iot.txt','nuclei IoT')">
+        <span class="tb-icon">🔌</span>nuclei IoT tmpl
+      </button>
+      <button class="tool-btn iot" onclick="runTool('shodan host {domain} 2>/dev/null || echo \"shodan CLI not configured\"','shodan lookup')">
+        <span class="tb-icon">👁️</span>Shodan host
+      </button>
+      <button class="tool-btn iot" onclick="runTool('nmap -sU -p 161,162 --script snmp-info,snmp-brute {domain} -oN {dir}/snmp.txt','SNMP enum')">
+        <span class="tb-icon">🦠</span>SNMP enum
+      </button>
+      <!-- Wireless tools -->
+      <button class="tool-btn wireless" onclick="runTool('sudo airodump-ng wlan0 --write {dir}/airodump --output-format csv 2>/dev/null || echo \"need monitor mode: sudo airmon-ng start wlan0\"','airodump-ng')">
+        <span class="tb-icon">📶</span>airodump scan
+      </button>
+      <button class="tool-btn wireless" onclick="runTool('sudo iwlist wlan0 scan 2>/dev/null | grep -E \"ESSID|Quality|Encryption\"','wifi scan')">
+        <span class="tb-icon">📡</span>WiFi scan
+      </button>
+    </div>
+    <div class="cmd-input-row">
+      <input id="custom-cmd" placeholder="custom command — {domain} and {dir} are replaced..." />
+      <button id="run-cmd-btn" onclick="runCustom()">▶ RUN</button>
+    </div>
+  </div>
+
+  <!-- Terminal -->
+  <div class="panel-title" style="margin-bottom:6px;">💻 LIVE TERMINAL OUTPUT</div>
+  <div id="terminal"></div>
+</div>
+
+<!-- RIGHT: FINDINGS FEED -->
+<div class="panel" id="right-panel">
+  <div class="panel-title">💥 FINDINGS FEED <span class="badge" id="finding-count">0</span></div>
+
+  <!-- Add finding form -->
+  <div id="add-form" style="margin-bottom:10px;">
+    <div style="font-size:10px;color:var(--orange);letter-spacing:2px;margin-bottom:8px;">+ LOG FINDING</div>
+    <input id="ff-title"   placeholder="Title / Vuln name" />
+    <select id="ff-type">
+      <option>SQLI</option><option>XSS</option><option>SSRF</option><option>IDOR</option>
+      <option>RCE</option><option>ATO</option><option>CHAIN</option><option>JWT</option>
+      <option>OAuth</option><option>SSTI</option><option>XXE</option><option>PATH_TRAVERSAL</option>
+      <option>HOST_HEADER</option><option>RACE_CONDITION</option><option>DESERIALIZATION</option>
+      <option>IoT_DEFAULT_CREDS</option><option>IoT_FIRMWARE</option><option>IoT_COMMAND_INJECT</option>
+      <option>IoT_UNAUTH_API</option><option>IoT_TELNET_OPEN</option>
+      <option>WIRELESS_WPA_CRACK</option><option>WIRELESS_DEAUTH</option>
+      <option>WIRELESS_EVIL_TWIN</option><option>WIRELESS_PMKID</option>
+      <option>OTHER</option>
+    </select>
+    <select id="ff-sev">
+      <option value="CRITICAL">🔴 CRITICAL</option>
+      <option value="HIGH">🟠 HIGH</option>
+      <option value="MEDIUM">🟡 MEDIUM</option>
+    </select>
+    <input id="ff-url"     placeholder="URL / IP / endpoint" />
+    <input id="ff-impact"  placeholder="Impact description" />
+    <input id="ff-bounty"  placeholder="Bounty ($)" />
+    <button onclick="addFinding()" style="background:var(--orange);">💥 LOG FINDING</button>
+  </div>
+
+  <div id="findings-list"></div>
+</div>
+
+</div><!-- /layout -->
+
+<div id="toast"></div>
+
+<script>
+// ── Socket.IO ──────────────────────────────────────────────────────
+const socket = io();
+let activeTarget = null;
+let allTargets   = [];
+let allStages    = {};
+
+socket.on("connect", () => {
+  document.getElementById("status-dot").classList.add("live");
+  toast("DASHBOARD ONLINE — SOCKET CONNECTED", "green");
+});
+socket.on("disconnect", () => {
+  document.getElementById("status-dot").classList.remove("live");
+  toast("CONNECTION LOST — RECONNECTING...", "err");
+});
+
+socket.on("init", d => {
+  allTargets = d.targets || [];
+  allStages  = d.stages  || {};
+  renderTargets();
+  renderFindings(d.findings || []);
+  updateStats(d.stats || {});
+  document.getElementById("last-ts").textContent = d.ts || "--";
+});
+
+socket.on("update", d => {
+  allTargets = d.targets || [];
+  allStages  = d.stages  || {};
+  renderTargets();
+  renderFindings(d.findings || []);
+  updateStats(d.stats || {});
+  document.getElementById("last-ts").textContent = d.ts || "--";
+  if(activeTarget) updatePipeline(activeTarget.id);
+});
+
+socket.on("target_added", t => {
+  toast(`TARGET ACCEPTED: ${t.domain}`, "orange");
+});
+
+socket.on("new_finding", f => {
+  toast(`💥 FINDING: ${f.title} [${f.severity}]`, f.severity === "CRITICAL" ? "err" : "orange");
+});
+
+socket.on("tool_output", d => {
+  termLine(d.line, "out");
+});
+socket.on("tool_start", d => {
+  termLine(`[>>] ${d.label}: ${d.cmd}`, "info");
+});
+socket.on("tool_done", d => {
+  termLine(`[✔] ${d.label} — ${d.lines} lines — ${d.ts}`, "info");
+});
+socket.on("stage_update", d => {
+  if(activeTarget && d.target_id === activeTarget.id) updatePipeline(d.target_id);
+});
+
+// ── Render targets ─────────────────────────────────────────────────
+function renderTargets(){
+  const list = document.getElementById("target-list");
+  document.getElementById("target-count").textContent = allTargets.length;
+  list.innerHTML = allTargets.map(t => `
+    <div class="target-card ${activeTarget?.id===t.id?'active':''}" onclick="selectTarget('${t.id}')">
+      <span class="sev sev-${t.severity}">${t.severity}</span>
+      <div class="domain">${t.domain}</div>
+      <div class="program">${t.program}
+        <span class="platform-badge platform-${t.platform}">${t.platform.toUpperCase()}</span>
+      </div>
+      <div class="stage-info">
+        <span class="stage-tag">${t.stage?.toUpperCase()||'RECON'}</span>
+        <div class="progress-bar">
+          <div class="progress-fill ${t.progress>=100?'done':''}" style="width:${t.progress||0}%"></div>
+        </div>
+        <span style="font-size:9px;color:var(--dim)">${t.progress||0}%</span>
+      </div>
+      ${t.bounty_est?`<div style="font-size:10px;color:var(--green);margin-top:4px;">Est: ${t.bounty_est}</div>`:''}
+    </div>
+  `).join("");
+}
+
+function selectTarget(id){
+  activeTarget = allTargets.find(t=>t.id===id);
+  if(!activeTarget) return;
+  document.getElementById("active-target-label").textContent = activeTarget.domain.toUpperCase();
+  renderTargets();
+  updatePipeline(id);
+  // Update tool buttons with target domain
+  const d = activeTarget.domain;
+  const dir = `/home/roxx/findings/targets/${id}`;
+  document.getElementById("custom-cmd").placeholder = `e.g. nmap -sV ${d}`;
+}
+
+// ── Pipeline ───────────────────────────────────────────────────────
+const STAGES = ["recon","enum","scan","iot","exploit","chain","report"];
+
+function updatePipeline(tid){
+  const ts = allStages[tid] || {};
+  const tgt = allTargets.find(t=>t.id===tid);
+  const currentStage = tgt?.stage || "recon";
+
+  STAGES.forEach((s,i) => {
+    const row  = document.getElementById(`stage-${s}`);
+    const fill = document.getElementById(`fill-${s}`);
+    const pct  = document.getElementById(`pct-${s}`);
+    const sts  = document.getElementById(`sts-${s}`);
+    const lbl  = document.getElementById(`lbl-${s}`);
+    if(!row) return;
+
+    const data = ts[s] || {};
+    const prog = data.progress || 0;
+    const stat = data.status   || (i < STAGES.indexOf(currentStage) ? "done" : "pending");
+
+    fill.style.width = prog + "%";
+    pct.textContent  = prog + "%";
+
+    row.className    = `stage-row ${stat}`;
+    fill.className   = `stage-fill ${stat==="done"?"done":""}`;
+    lbl.className    = `stage-label ${stat}`;
+
+    if(stat==="running"){
+      sts.textContent  = "RUNNING";
+      sts.className    = "stage-status running";
+    } else if(stat==="done"){
+      sts.textContent  = "✔ DONE";
+      sts.className    = "stage-status done";
+    } else {
+      sts.textContent  = "PENDING";
+      sts.className    = "stage-status pending";
+    }
+  });
+}
+
+// ── Findings ───────────────────────────────────────────────────────
+function renderFindings(findings){
+  const list = document.getElementById("findings-list");
+  document.getElementById("finding-count").textContent = findings.length;
+  list.innerHTML = findings.slice(0,60).map(f => `
+    <div class="finding-card ${f.category||''}">
+      <div class="fc-title">${f.name||f.title||'Untitled'}</div>
+      <div class="fc-meta">
+        <span class="fc-type">${f.category||''}</span>
+        <span>${f.mtime||f.ts||''}</span>
+        <span style="font-size:9px;color:var(--dim)">${fmtSize(f.size||0)}</span>
+      </div>
+      ${f.preview?`<div class="fc-preview">${escHtml(f.preview)}</div>`:''}
+    </div>
+  `).join("");
+}
+
+// ── Stats ──────────────────────────────────────────────────────────
+function updateStats(s){
+  const map = {targets:"s-targets",pocs:"s-pocs",reports:"s-reports",
+               secrets:"s-secrets",chains:"s-chains",iot:"s-iot",
+               wireless:"s-wireless",recon:"s-recon"};
+  for(const k in map){
+    const el = document.getElementById(map[k]);
+    if(el) el.textContent = s[k]||0;
+  }
+}
+
+// ── Add target ─────────────────────────────────────────────────────
+function addTarget(){
+  const d = {
+    domain:     document.getElementById("f-domain").value.trim(),
+    platform:   document.getElementById("f-platform").value,
+    program:    document.getElementById("f-program").value,
+    scope:      document.getElementById("f-scope").value,
+    bounty_est: document.getElementById("f-bounty").value,
+    tags:       document.getElementById("f-tags").value,
+    notes:      document.getElementById("f-notes").value,
+    severity:   "HIGH",
+  };
+  if(!d.domain){ toast("Enter a target domain/IP/SSID","err"); return; }
+  fetch("/api/targets",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify(d)})
+    .then(r=>r.json()).then(r=>{
+      if(r.ok){ toast(`✔ TARGET ACCEPTED: ${d.domain}`,"green"); ["f-domain","f-scope","f-bounty","f-tags","f-notes"].forEach(id=>document.getElementById(id).value=""); }
+    });
+}
+
+// ── Add finding ────────────────────────────────────────────────────
+function addFinding(){
+  const d = {
+    target_id: activeTarget?.id || "global",
+    title:     document.getElementById("ff-title").value,
+    type:      document.getElementById("ff-type").value,
+    severity:  document.getElementById("ff-sev").value,
+    url:       document.getElementById("ff-url").value,
+    impact:    document.getElementById("ff-impact").value,
+    bounty:    document.getElementById("ff-bounty").value,
+  };
+  if(!d.title){ toast("Enter finding title","err"); return; }
+  fetch("/api/finding",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify(d)})
+    .then(r=>r.json()).then(r=>{ if(r.ok){ toast(`💥 FINDING LOGGED: ${d.title}`,"orange"); document.getElementById("ff-title").value=""; }});
+}
+
+// ── Run tool ───────────────────────────────────────────────────────
+function runTool(cmd, label){
+  if(!activeTarget){ toast("Select a target first","err"); return; }
+  const d = activeTarget.domain;
+  const dir = `/home/roxx/findings/targets/${activeTarget.id}`;
+  cmd = cmd.replace(/{domain}/g, d).replace(/{dir}/g, dir);
+  fetch("/api/run",{method:"POST",headers:{"Content-Type":"application/json"},
+    body:JSON.stringify({cmd, label, target_id: activeTarget.id})})
+    .then(()=>toast(`▶ RUNNING: ${label}`,"green"));
+}
+
+function runCustom(){
+  const raw = document.getElementById("custom-cmd").value.trim();
+  if(!raw){ toast("Enter a command","err"); return; }
+  runTool(raw, raw.split(" ")[0]);
+}
+
+// ── Terminal ───────────────────────────────────────────────────────
+const term = document.getElementById("terminal");
+function termLine(text, cls="out"){
+  const d = document.createElement("div");
+  d.className = `t-line ${cls}`;
+  const ts = new Date().toLocaleTimeString();
+  d.innerHTML = `<span class="t-ts">[${ts}]</span>${escHtml(text)}`;
+  term.appendChild(d);
+  if(term.children.length > 500) term.removeChild(term.firstChild);
+  term.scrollTop = term.scrollHeight;
+}
+
+// ── Toast ──────────────────────────────────────────────────────────
+function toast(msg, cls=""){
+  const box = document.getElementById("toast");
+  const el  = document.createElement("div");
+  el.className = `toast-msg ${cls}`;
+  el.textContent = msg;
+  box.appendChild(el);
+  setTimeout(()=>el.remove(), 4000);
+}
+
+// ── Helpers ────────────────────────────────────────────────────────
+function escHtml(s){ return String(s).replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;"); }
+function fmtSize(b){ return b>1048576?`${(b/1048576).toFixed(1)}MB`:b>1024?`${(b/1024).toFixed(0)}KB`:`${b}B`; }
+
+// ── Startup log ────────────────────────────────────────────────────
+termLine("ROXX'S SLAVE DASHBOARD v14.1 — ONLINE", "info");
+termLine("Awaiting target selection...", "info");
+</script>
+</body>
+</html>
