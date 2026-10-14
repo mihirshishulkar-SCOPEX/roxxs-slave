@@ -1,0 +1,13 @@
+{
+  "primary":    "#CC0000",
+  "secondary":  "#FF3333",
+  "accent":     "#FF0000",
+  "error":      "#FF4444",
+  "warning":    "#FF8800",
+  "success":    "#00CC44",
+  "info":       "#CC3300",
+  "muted":      "#660000",
+  "background": "#0A0000",
+  "text":       "#FF3333",
+  "textMuted":  "#993333"
+}
