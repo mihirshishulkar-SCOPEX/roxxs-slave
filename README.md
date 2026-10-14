@@ -1,218 +1,177 @@
-# ROXX'S SLAVE — Devilish Hunt Engine v777 ABYSS
-
 <div align="center">
 
 ```
-██████╗  ██████╗ ██╗  ██╗██╗  ██╗    ██╗███████╗    ███████╗██╗      █████╗ ██╗   ██╗███████╗
-██╔══██╗██╔═══██╗╚██╗██╔╝╚██╗██╔╝    ██║██╔════╝    ██╔════╝██║     ██╔══██╗██║   ██║██╔════╝
-██████╔╝██║   ██║ ╚███╔╝  ╚███╔╝     ██║███████╗    ███████╗██║     ███████║██║   ██║█████╗
-██╔══██╗██║   ██║ ██╔██╗  ██╔██╗     ██║╚════██║    ╚════██║██║     ██╔══██║╚██╗ ██╔╝██╔══╝
-██║  ██║╚██████╔╝██╔╝ ██╗██╔╝ ██╗    ██║███████║    ███████║███████╗██║  ██║ ╚████╔╝ ███████╗
-╚═╝  ╚═╝ ╚═════╝ ╚═╝  ╚═╝╚═╝  ╚═╝   ╚═╝╚══════╝    ╚══════╝╚══════╝╚═╝  ╚═╝  ╚═══╝  ╚══════╝
-         D E V I L I S H  v 7 7 7  A B Y S S  —  2 5  P H A S E S
+██████╗  ██████╗ ██╗  ██╗██╗  ██╗    ██╗███╗  ██╗███████╗████████╗ █████╗ ██╗     ██╗
+██╔══██╗██╔═══██╗╚██╗██╔╝╚██╗██╔╝    ██║████╗ ██║██╔════╝╚══██╔══╝██╔══██╗██║     ██║
+██████╔╝██║   ██║ ╚███╔╝  ╚███╔╝     ██║██╔██╗██║███████╗   ██║   ███████║██║     ██║
+██╔══██╗██║   ██║ ██╔██╗  ██╔██╗     ██║██║╚████║╚════██║   ██║   ██╔══██║██║     ██║
+██║  ██║╚██████╔╝██╔╝ ██╗██╔╝ ██╗    ██║██║ ╚███║███████║   ██║   ██║  ██║███████╗███████╗
+╚═╝  ╚═╝ ╚═════╝ ╚═╝  ╚═╝╚═╝  ╚═╝   ╚═╝╚═╝  ╚══╝╚══════╝   ╚═╝   ╚═╝  ╚═╝╚══════╝╚══════╝
 ```
 
-[![Version](https://img.shields.io/badge/version-v777--ABYSS-red)](.)
-[![Phases](https://img.shields.io/badge/hunt%20phases-25-black)](.)
-[![Auto-Update](https://img.shields.io/badge/auto--update-✓-green)](.)
-[![Self-Healing](https://img.shields.io/badge/self--healing-✓-green)](.)
-[![Platform](https://img.shields.io/badge/platform-Linux%20%7C%20macOS%20%7C%20WSL-red)](.)
+# ☠ ROXX'S SLAVE — v777 ABYSS GLOBAL ☠
 
-**Gets deadlier every time you ask. ☠**
+**The deadliest bug bounty AI system ever assembled.**  
+**OpenCode + Claude + 23+ tools + ROXX blood-red theme + skull animation**
+
+[![Release](https://img.shields.io/github/v/release/mihirshishulkar-SCOPEX/roxxs-slave?color=CC0000&label=LATEST&style=for-the-badge)](https://github.com/mihirshishulkar-SCOPEX/roxxs-slave/releases)
+[![Stars](https://img.shields.io/github/stars/mihirshishulkar-SCOPEX/roxxs-slave?color=CC0000&style=for-the-badge)](https://github.com/mihirshishulkar-SCOPEX/roxxs-slave/stargazers)
 
 </div>
 
 ---
 
-## ⚡ ONE COMMAND INSTALL
+## ⚡ ONE LINE INSTALL
 
 ```bash
 curl -sSL https://raw.githubusercontent.com/mihirshishulkar-SCOPEX/roxxs-slave/main/install.sh | bash
 ```
 
-That's it. It:
-- ✅ Installs all tools automatically
-- ✅ Fixes any errors by itself  
-- ✅ Sets up `devil` command globally
-- ✅ Auto-updates on every run
-- ✅ Self-heals broken tools
+Works on: **Kali** · **Ubuntu** · **Debian** · **Arch** · **macOS** · **WSL2** · **root** · **any user**
 
 ---
 
-## 🗡 COMMANDS (All easy)
+## 🎯 WHAT IT INSTALLS
+
+| Component | Description |
+|-----------|-------------|
+| **`opencode`** | ROXX skull animation + blood-red theme on every launch |
+| **`devil`** / `hunt` / `rs` | 25-phase autonomous bug hunting engine |
+| **`claude`** | Wrapped with ROXX animation |
+| **ROXX theme** | Blood-red/black hacker UI for OpenCode |
+| **23+ Go tools** | subfinder, nuclei, httpx, katana, dalfox, ffuf, trufflehog... |
+| **Python tools** | sqlmap, xsstrike, wafw00f + SecLists |
+| **15 skill files** | JWT, Cloud SSRF, ATO, Race, API, LLM, Recon, Deserialization... |
+| **Brain files** | AGENTS.md, OC.md, CLAUDE.md — deadliest personas |
+| **~/findings/** | 19 auto-created finding categories |
+| **WSL + Windows** | PowerShell aliases + Terminal setup |
+
+---
+
+## 🚀 COMMANDS
 
 ```bash
-devil target.com                    # Full 25-phase hunt
-devil target.com HackerOne 5000     # With platform + bounty estimate
-hunt  target.com                    # Same thing (alias)
-rs    target.com                    # Ultra-short alias
+# Primary command — ROXX animation + blood-red opencode
+opencode
 
-devil dashboard                     # Live dashboard at http://localhost:1337
-devil iot 192.168.1.0/24            # IoT + wireless device hunt
-devil update                        # Force self-update right now
-devil heal                          # Fix any broken tools
-devil help                          # Show all commands
-```
+# Hunt engine — 25-phase attack
+devil target.com
+hunt  target.com    # alias
+rs    target.com    # short alias
 
-> **Auto-updates itself every time you run it.** No manual update needed.  
-> **Self-heals broken tools** — if a tool fails, it reinstalls automatically.
+# Self-update
+devil update
+opencode --update
 
----
+# Heal missing tools
+devil heal
 
-## ☠ 25-PHASE HUNT ENGINE — DEVILISH v777 ABYSS
-
-| Phase | Name | What It Does |
-|-------|------|-------------|
-| 1 | Deep Passive Recon | subfinder, amass, crt.sh, certspotter, OTX, RapidDNS, GitHub dorks, TruffleHog, email harvest |
-| 2 | Active Recon | httpx fingerprint, dnsx wildcard, naabu full-range, nmap --script=vuln, service detection |
-| 3 | Web Crawl + JS Analysis | katana depth-7, gospider, hakrawler, 80+ sensitive paths, JS secrets extraction, endpoint mining |
-| 4 | Nuclei Maximum Blast | All critical+high, CVE, takeover, default-login, WordPress, exposure, misconfig |
-| 5 | SQL Injection | sqlmap level5/risk3, 10 tamper scripts, manual error-based, time-based blind, OOB DNS exfil |
-| 6 | XSS All Vectors | dalfox WAF-evasion, blind XSS (OOB), DOM XSS, 20 manual bypass payloads, stored injection |
-| 7 | SSRF + XXE + SSTI | All cloud providers, gopher://, dict://, file://, all template engines + RCE chain |
-| 8 | File Upload RCE | 30+ extension bypass, MIME bypass, GIF magic bytes, polyglot, path traversal upload |
-| 9 | Deserialization | Java (Log4Shell, ViewState), PHP object injection, .NET MachineKey, gadget chains |
-| 10 | Auth Deep | JWT (alg:none + weak secret + RS256→HS256 + kid SQLi + jku SSRF), SAML XXE, OAuth, MFA bypass, password spray |
-| 11 | IDOR + Logic + Race | BOLA, GraphQL introspection, HTTP smuggling CL.TE/TE.CL, cache poisoning, race conditions |
-| 12 | Cloud Maximum | S3 enum (30 names), AWS key harvest, K8s API, Docker daemon, Azure/GCP IMDS, SSRF→IAM chain |
-| 13 | API Deep | Mass assignment (20 fields), BOLA, BFLA, rate limit bypass (7 headers), hidden endpoint discovery |
-| 14 | WebSocket | Endpoint discovery, auth bypass, admin escalation, data exposure |
-| 15 | DNS + Cache + CORS | DNS rebinding, cache poisoning (8 headers), CORS credential bypass, host header poison |
-| 16 | AI/LLM Maximum | 20 prompt injection techniques, jailbreak, system prompt extraction, data exfiltration |
-| 17 | Supply Chain | Dependency confusion, npm/PyPI check, missing SRI on CDN scripts |
-| 18 | Business Logic | Negative price, zero price, integer overflow, payment bypass, workflow step skip |
-| 19 | Command Injection + LFI | 10 cmdi payloads, 18 LFI path traversal variants, RFI, PHP wrappers, log poisoning |
-| 20 | Advanced Injection | NoSQL injection, LDAP injection, XPath, prototype pollution (URL + JSON + API) |
-| 21 | Redirect + Headers | 10 open redirect params, 12 redirect payloads, clickjacking, security header audit |
-| 22 | CMS Specific | WordPress XML-RPC brute, user enum, Laravel debug, Drupal, Joomla |
-| 23 | Exploit Chain Correlator | Auto-builds SSRF→IAM, SQLi→ATO, JWT→Admin, XSS→ATO, LFI→RCE chains |
-| 24 | Parameter Discovery | arjun hidden params, ffuf API versioning, backup file sweep |
-| 25 | Final Report | Markdown report + auto PoC generation + dashboard update + bounty estimate |
-
----
-
-## 📊 Live Dashboard
-
-```
-http://localhost:1337
-```
-
-```bash
-devil dashboard   # Start it
-```
-
-Real-time: target tracking · hunt stage · findings feed · IoT results · tool streaming
-
----
-
-## 💀 Exploit Chain Auto-Builder
-
-The engine auto-correlates findings into complete attack chains:
-
-```
-SSRF → AWS IMDS → IAM credential theft → Full cloud compromise      $10k+ CRITICAL
-SQLi → DB dump → password crack → credential spray → ATO            $5k+  CRITICAL  
-JWT weak secret → forge admin token → mass data exfil               $8k+  CRITICAL
-File upload bypass → webshell → RCE → pivot to cloud                $15k+ CRITICAL
-LFI → log poisoning → RCE → persistence                             $10k+ CRITICAL
-XSS blind → admin cookie theft → ATO                                $3k+  HIGH
-OAuth redirect_uri → token theft → full ATO                         $7k+  CRITICAL
+# Live dashboard (http://localhost:1337)
+devil dashboard
 ```
 
 ---
 
-## 🔄 Auto-Update + Self-Healing
+## 🩸 ROXX THEME
 
-```bash
-# Auto-updates silently on every run — zero effort needed
+Custom blood-red hacker theme for OpenCode. Applied automatically on install.
 
-devil update    # Force update right now
-devil heal      # Fix any broken/missing tools
+```json
+{
+  "primary":    "#CC0000",
+  "secondary":  "#FF3333",
+  "accent":     "#FF0000",
+  "background": "#0A0000",
+  "text":       "#FF3333"
+}
 ```
 
-**What self-healing does:**
-- Detects missing tools → reinstalls them
-- Retries failed installs up to 3 times
-- Falls back to direct download if git fails  
-- Fixes pip/go/apt errors automatically
-- Updates nuclei templates on every update
+Theme location: `~/.config/opencode/themes/roxx.json`
 
 ---
 
-## 📁 Output Structure
+## 💀 SKILL FILES
 
-```
-~/findings/targets/<target>/
-├── hunt.log              ← Full hunt log
-├── findings.log          ← All findings (severity|type|title|url)
-├── subs_all.txt          ← All subdomains
-├── alive.txt             ← Alive hosts with fingerprints
-├── all_urls.txt          ← All crawled URLs
-├── js_secrets.txt        ← Secrets from JS files
-├── nuclei_results.txt    ← Nuclei JSON output
-├── sqli_confirmed.txt    ← Confirmed SQLi
-├── ssrf_confirmed.txt    ← Confirmed SSRF
-├── lfi_confirmed.txt     ← Confirmed LFI
-├── rce_confirmed.txt     ← Confirmed RCE
-├── jwt_cracked.txt       ← Cracked JWT secrets
-└── valid_creds.txt       ← Valid credentials
-~/findings/pocs/          ← Auto-generated PoC files
-~/findings/chains/        ← Exploit chains (markdown)
-~/findings/reports/       ← Full hunt reports
+| Skill | Coverage |
+|-------|----------|
+| `DEVIL_JWT_OAUTH.md` | JWT alg:none, RS256→HS256, kid injection, jku SSRF, OAuth state CSRF, redirect bypass, PKCE downgrade |
+| `DEVIL_CLOUD_SSRF.md` | AWS IMDSv1/v2, Azure IMDS, GCP metadata, S3 misconfig, container escape |
+| `DEVIL_ATO_MFA.md` | Account takeover chains, MFA bypass (25 methods), session fixation, cookie theft |
+| `DEVIL_RACE_LOGIC.md` | Race conditions, business logic, limit bypass, negative balance, coupon stacking |
+| `DEVIL_API_GRAPHQL.md` | GraphQL introspection, batching DoS, IDOR via aliases, REST mass assignment |
+| `DEVIL_LLM_AI.md` | Prompt injection, jailbreaks, MCP tool injection, RAG poisoning, agent hijacking |
+| `DEVIL_RECON_MASTER.md` | Full recon: subfinder, amass, httpx, nuclei, shodan, Google dorks |
+| `DEVIL_DESERIAL_UPLOAD.md` | Java/PHP/Python deserialization, file upload RCE (30+ bypass techniques) |
+| `DEVIL_CHAINS.md` | 50 pre-built exploit chains from P3→P1 |
+| `DEVIL_PAYLOADS_*` | Complete payload libraries: XSS, SQLi, SSRF, injection, auth bypass |
+| `CAVEMAN_SKILL.md` | Token-efficient ultra-dense hunting communication style |
+
+---
+
+## 🌐 GLOBAL INSTALL — Multi-User
+
+When run as **root**, installs for ALL users simultaneously:
+- `/usr/local/bin/` — system-wide commands
+- `/home/*/` — all user homes get brain files + aliases
+- `/root/` — root user
+- Windows home (WSL) — PowerShell aliases
+
+When run as **non-root**, installs to `~/.local/bin/` automatically.
+
+---
+
+## 🪟 WSL + WINDOWS
+
+```powershell
+# After install, activate PowerShell aliases:
+Add-Content $PROFILE ". $env:USERPROFILE\.roxx-slave\roxx-aliases.ps1"
+
+# Then use from PowerShell:
+opencode        # runs via WSL
+devil target    # runs via WSL
 ```
 
 ---
 
-## 🛡 Platforms
+## 📁 STRUCTURE
 
-| Platform | Status |
-|----------|--------|
-| Kali Linux | ✅ Full support |
-| Ubuntu / Debian | ✅ Full support |
-| Parrot OS | ✅ Full support |
-| macOS | ✅ Supported |
-| Windows (WSL2) | ✅ Supported |
-| Any Linux (auto-detects pkg mgr) | ✅ Auto-heal |
+```
+~/.roxx-slave/
+├── skills/          # 15 attack methodology files
+├── findings/        # 19 finding categories
+├── scripts/         # roxx-banner, devil.sh
+├── dashboard/       # Live web dashboard
+├── brain/           # OC.md, CLAUDE.md, AGENTS.md
+└── .version         # Installed version
+
+~/.config/opencode/
+├── opencode.jsonc   # Config with ROXX theme + autoapprove
+└── themes/
+    └── roxx.json    # Blood-red hacker theme
+```
 
 ---
 
-## ⚠️ Legal
+## ⚔️ ATTACK PRIORITY ORDER
 
-Authorized bug bounty hunting only. Only use on targets you have explicit permission to test.
+```
+1. RCE (any path)
+2. Account Takeover (full ATO)
+3. Authentication bypass
+4. Mass data exposure (PII dump)
+5. Financial manipulation
+6. Privilege escalation to admin
+7. SSRF → Cloud credential theft
+```
 
 ---
 
 <div align="center">
 
-**ROXX'S SLAVE — Devilish v777 ABYSS**  
-*Built by [ROXX (Mihir Shishulkar)](https://github.com/mihirshishulkar-SCOPEX) — Authorized Bug Bounty Hunter*
+**☠ Born in the abyss. Sharpened on every CVE. Gets deadlier every time you ask. ☠**
 
-☠ *Gets deadlier every time you ask* ☠
+*v777 ABYSS | Auto-updates on every devil run*
+
+**Operator: ROXX (Mihir Shishulkar) — authorized on H1 · Bugcrowd · Intigriti · Synack**
 
 </div>
-
----
-
-## 📸 Screenshots
-
-### ☠ ROXX Banner — v777 ABYSS
-![ROXX Banner](docs/screenshots/01_banner.png)
-
-### 🗡 Devil Help Menu
-![Devil Commands](docs/screenshots/02_devil_help.png)
-
-### 💀 25-Phase Hunt Engine Running
-![Hunt Phases](docs/screenshots/03_hunt_phases.png)
-
-### 🔴 Critical Findings Output
-![Findings](docs/screenshots/04_findings.png)
-
-### 📊 Final Recon Report
-![Report](docs/screenshots/05_report.png)
-
-### ⚡ One-Line Install Sequence
-![Install](docs/screenshots/06_install.png)
-
-### 🔄 Auto-Update + Self-Heal
-![Auto-Update](docs/screenshots/07_autoupdate.png)
-
