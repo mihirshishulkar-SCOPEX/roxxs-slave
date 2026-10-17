@@ -214,72 +214,196 @@ install_node() {
 }
 
 # ═════════════════════════════════════════════════════════════════════════════
-# PHASE 4 — OPENCODE (primary AI tool — gets ROXX animation + theme)
+# PHASE 4 — OPENCODE (7-method bulletproof install + auto-upgrade)
 # ═════════════════════════════════════════════════════════════════════════════
 install_opencode() {
-  step "OPENCODE — PRIMARY AI TOOL"
+  step "OPENCODE — BULLETPROOF 7-METHOD INSTALL"
 
-  # Source nvm if available
-  export NVM_DIR="$USER_HOME/.nvm"
+  # Source NVM so node/npm are on PATH
+  export NVM_DIR="${NVM_DIR:-$USER_HOME/.nvm}"
   [[ -s "$NVM_DIR/nvm.sh" ]] && source "$NVM_DIR/nvm.sh" >>"$LOG" 2>&1 || true
+  export PATH="$PATH:$USER_HOME/.opencode/bin:/root/.opencode/bin:$USER_HOME/.local/bin:/usr/local/bin"
 
-  # Find any existing real binary (not our wrapper)
-  REAL_OC=""
-  for candidate in \
-    "$USER_HOME/.opencode/bin/opencode" \
-    "/root/.opencode/bin/opencode" \
-    "$USER_HOME/.local/bin/.opencode-real" \
-    "/usr/local/bin/.opencode-real" \
-    "$(command -v opencode 2>/dev/null || true)"; do
-    [[ -z "$candidate" || ! -f "$candidate" ]] && continue
-    head -1 "$candidate" 2>/dev/null | grep -qiE "roxx|bash" && continue
-    REAL_OC="$candidate"; break
-  done
-
-  if [[ -n "$REAL_OC" ]]; then
-    ok "OpenCode real binary: $REAL_OC"
-  else
-    fixing "Installing OpenCode..."
-
-    # Method 1: Official installer
-    if curl -sSL https://opencode.ai/install | bash >>"$LOG" 2>&1; then
-      ok "OpenCode installed via official installer"
-    # Method 2: npm global
-    elif command -v npm &>/dev/null; then
-      npm install -g opencode-ai >>"$LOG" 2>&1 && ok "OpenCode via npm" || true
-    fi
-
-    # Method 3: Direct binary download
-    if [[ -z "$REAL_OC" ]]; then
-      local OC_URL=""
-      case "${OS}-${ARCH}" in
-        Linux-x86_64)  OC_URL="https://github.com/sst/opencode/releases/latest/download/opencode-linux-x64" ;;
-        Linux-aarch64) OC_URL="https://github.com/sst/opencode/releases/latest/download/opencode-linux-arm64" ;;
-        macOS-arm64)   OC_URL="https://github.com/sst/opencode/releases/latest/download/opencode-darwin-arm64" ;;
-        macOS-x86_64)  OC_URL="https://github.com/sst/opencode/releases/latest/download/opencode-darwin-x64" ;;
-      esac
-      if [[ -n "$OC_URL" ]]; then
-        mkdir -p "$USER_HOME/.opencode/bin"
-        retry "curl -sSL '$OC_URL' -o '$USER_HOME/.opencode/bin/opencode'" && \
-          chmod +x "$USER_HOME/.opencode/bin/opencode" && \
-          ok "OpenCode binary at $USER_HOME/.opencode/bin/opencode" || warn "Direct binary download failed"
-      fi
-    fi
-
-    # Re-detect after install
-    for candidate in \
+  # ── Find any pre-existing real binary (not our wrapper) ───────────────────
+  _find_real_oc() {
+    local found=""
+    for c in \
       "$USER_HOME/.opencode/bin/opencode" \
       "/root/.opencode/bin/opencode" \
-      "$(command -v opencode 2>/dev/null || true)" \
-      "$USER_HOME/.nvm/versions/node/$(ls "$USER_HOME/.nvm/versions/node" 2>/dev/null | sort -V | tail -1)/bin/opencode"; do
-      [[ -z "$candidate" || ! -f "$candidate" ]] && continue
-      head -1 "$candidate" 2>/dev/null | grep -qiE "roxx|bash" && continue
-      REAL_OC="$candidate"; break
+      "$USER_HOME/.local/bin/.opencode-real" \
+      "/usr/local/bin/.opencode-real" \
+      "/usr/local/bin/opencode" \
+      "/usr/bin/opencode"; do
+      [[ -f "$c" && -x "$c" ]] || continue
+      head -1 "$c" 2>/dev/null | grep -qiE "roxx|ROXX|bash.*interceptor" && continue
+      echo "$c"; return 0
     done
+    # Check npm global
+    local npm_oc
+    npm_oc="$(npm root -g 2>/dev/null)/opencode-ai/bin/opencode"
+    [[ -f "$npm_oc" ]] && ! head -1 "$npm_oc" 2>/dev/null | grep -qiE "roxx" && echo "$npm_oc" && return 0
+    # Check nvm node paths
+    for nv in "$NVM_DIR"/versions/node/*/bin/opencode; do
+      [[ -f "$nv" && -x "$nv" ]] || continue
+      head -1 "$nv" 2>/dev/null | grep -qiE "roxx" && continue
+      echo "$nv"; return 0
+    done
+    return 1
+  }
+
+  REAL_OC="$(_find_real_oc 2>/dev/null || true)"
+
+  if [[ -n "$REAL_OC" ]]; then
+    local cur_ver
+    cur_ver="$("$REAL_OC" --version 2>/dev/null | grep -oP '[\d.]+' | head -1 || echo 'unknown')"
+    ok "OpenCode found: $REAL_OC (v$cur_ver)"
+
+    # ── Auto-upgrade if newer version available ──────────────
+    local latest_ver
+    latest_ver="$(curl -fsSL --max-time 8 \
+      'https://api.github.com/repos/sst/opencode/releases/latest' 2>/dev/null \
+      | python3 -c "import json,sys; v=json.load(sys.stdin).get('tag_name',''); print(v.lstrip('v'))" 2>/dev/null || echo '')"
+
+    if [[ -n "$latest_ver" && "$latest_ver" != "$cur_ver" ]]; then
+      fixing "Upgrading OpenCode $cur_ver → $latest_ver..."
+      _install_opencode_binary "$latest_ver" && ok "OpenCode upgraded to $latest_ver" || \
+        warn "Upgrade failed — keeping $cur_ver"
+    else
+      ok "OpenCode is latest (v${cur_ver})"
+    fi
+  else
+    fixing "OpenCode not found — running 7-method install..."
+    _install_opencode_fresh
   fi
 
-  [[ -z "$REAL_OC" ]] && warn "OpenCode binary not found — install manually: curl -sSL https://opencode.ai/install | bash" || ok "REAL_OC=$REAL_OC"
+  # Final re-detect
+  REAL_OC="$(_find_real_oc 2>/dev/null || true)"
+  if [[ -n "$REAL_OC" ]]; then
+    ok "OpenCode ready: $REAL_OC ($("$REAL_OC" --version 2>/dev/null || echo '?'))"
+  else
+    warn "OpenCode install failed — see log: $LOG"
+    warn "Manual: curl -fsSL https://opencode.ai/install | bash"
+  fi
 }
+
+# ── Download and install a specific OpenCode version ─────────────────────────
+_install_opencode_binary() {
+  local ver="${1:-}"
+  local ARCH_MAP; ARCH_MAP="$(uname -m)"
+  local OC_ARCH OC_OS_TAG
+
+  case "$ARCH_MAP" in
+    x86_64)  OC_ARCH="x64"    ;;
+    aarch64|arm64) OC_ARCH="arm64" ;;
+    armv7l)  OC_ARCH="arm"    ;;
+    *)       OC_ARCH="x64"    ;;
+  esac
+
+  case "$(uname -s)" in
+    Linux)  OC_OS_TAG="linux"  ;;
+    Darwin) OC_OS_TAG="darwin" ;;
+    *)      OC_OS_TAG="linux"  ;;
+  esac
+
+  local BASE_URL
+  if [[ -n "$ver" ]]; then
+    BASE_URL="https://github.com/sst/opencode/releases/download/v${ver}/opencode-${OC_OS_TAG}-${OC_ARCH}"
+  else
+    BASE_URL="https://github.com/sst/opencode/releases/latest/download/opencode-${OC_OS_TAG}-${OC_ARCH}"
+  fi
+
+  local DEST="$USER_HOME/.opencode/bin/opencode"
+  [[ $IS_ROOT -eq 1 ]] && DEST="/root/.opencode/bin/opencode"
+  mkdir -p "$(dirname "$DEST")" 2>/dev/null
+
+  fixing "Downloading: $BASE_URL"
+  if curl -fsSL --max-time 180 --retry 3 --retry-delay 5 \
+      --progress-bar "$BASE_URL" -o "$DEST" >>"$LOG" 2>&1; then
+    chmod +x "$DEST"
+    ok "OpenCode binary → $DEST"
+    return 0
+  fi
+
+  # Try with wget fallback
+  if command -v wget &>/dev/null; then
+    wget -q --retry-connrefused --tries=3 --timeout=180 "$BASE_URL" -O "$DEST" >>"$LOG" 2>&1 && \
+      chmod +x "$DEST" && ok "OpenCode via wget → $DEST" && return 0
+  fi
+
+  return 1
+}
+
+# ── 7-method fresh install ────────────────────────────────────────────────────
+_install_opencode_fresh() {
+  # Method 1 — Official installer (non-interactive via script download + exec)
+  fixing "Method 1: Official installer script..."
+  local install_script
+  install_script="$(mktemp /tmp/oc-install.XXXXXX.sh 2>/dev/null || echo /tmp/oc-install-$$.sh)"
+  if curl -fsSL --max-time 30 https://opencode.ai/install -o "$install_script" 2>/dev/null; then
+    bash "$install_script" >>"$LOG" 2>&1 && {
+      ok "OpenCode installed via official script"
+      rm -f "$install_script"; return 0
+    }
+  fi
+  rm -f "$install_script" 2>/dev/null
+
+  # Method 2 — Direct binary download (most reliable, no Node needed)
+  fixing "Method 2: Direct binary download..."
+  _install_opencode_binary "" && return 0
+
+  # Method 3 — npm global install
+  fixing "Method 3: npm global..."
+  if command -v npm &>/dev/null; then
+    npm install -g opencode-ai --prefer-offline >>"$LOG" 2>&1 || \
+    npm install -g opencode-ai >>"$LOG" 2>&1
+    command -v opencode &>/dev/null && ! head -1 "$(command -v opencode)" 2>/dev/null | grep -qiE "roxx" && \
+      ok "OpenCode via npm" && return 0
+  fi
+
+  # Method 4 — npx (no global install needed)
+  fixing "Method 4: npx wrapper..."
+  if command -v npx &>/dev/null; then
+    cat > "$USER_HOME/.local/bin/.opencode-npx" << 'NPXEOF'
+#!/usr/bin/env bash
+exec npx opencode-ai "$@"
+NPXEOF
+    chmod +x "$USER_HOME/.local/bin/.opencode-npx"
+    ok "OpenCode via npx wrapper" && return 0
+  fi
+
+  # Method 5 — Install Node via nvm, then npm install opencode
+  fixing "Method 5: Install Node + opencode via nvm..."
+  if [[ ! -d "$USER_HOME/.nvm" ]]; then
+    curl -fsSL --max-time 60 https://raw.githubusercontent.com/nvm-sh/nvm/v0.40.0/install.sh \
+      -o /tmp/nvm-install.sh >>"$LOG" 2>&1 && \
+      bash /tmp/nvm-install.sh >>"$LOG" 2>&1 || true
+    rm -f /tmp/nvm-install.sh
+  fi
+  export NVM_DIR="$USER_HOME/.nvm"
+  [[ -s "$NVM_DIR/nvm.sh" ]] && source "$NVM_DIR/nvm.sh" >>"$LOG" 2>&1 || true
+  if command -v nvm &>/dev/null; then
+    nvm install --lts >>"$LOG" 2>&1 && nvm use --lts >>"$LOG" 2>&1
+    npm install -g opencode-ai >>"$LOG" 2>&1 && \
+      ok "OpenCode via nvm+npm" && return 0
+  fi
+
+  # Method 6 — Download specific fallback version binary
+  fixing "Method 6: Fallback version binary (v1.19.3)..."
+  _install_opencode_binary "1.19.3" && return 0
+
+  # Method 7 — apt/snap/brew
+  fixing "Method 7: Package manager..."
+  if command -v snap &>/dev/null; then
+    $SUDO snap install opencode --classic >>"$LOG" 2>&1 && ok "OpenCode via snap" && return 0
+  fi
+  if command -v brew &>/dev/null; then
+    brew install opencode >>"$LOG" 2>&1 && ok "OpenCode via brew" && return 0
+  fi
+
+  warn "ALL 7 OpenCode methods failed — check internet + try: curl -fsSL https://opencode.ai/install | bash"
+  return 1
+}
+
 
 # ═════════════════════════════════════════════════════════════════════════════
 # PHASE 5 — CLAUDE CLI
@@ -749,36 +873,67 @@ CWEOF
 # PHASE 15 — DEVIL COMMAND (hunt engine)
 # ═════════════════════════════════════════════════════════════════════════════
 install_devil() {
-  step "DEVIL COMMAND (hunt engine)"
+  step "DEVIL COMMAND (25-phase hunt engine — 2040 lines)"
   local RAW="${ROXX_RAW:-https://raw.githubusercontent.com/mihirshishulkar-SCOPEX/roxxs-slave/main}"
 
+  # Try repo copy first
   local devil_src=""
   for f in "$INSTALL_DIR/scripts/devil.sh" "$INSTALL_DIR/scripts/devil"; do
     [[ -f "$f" ]] && devil_src="$f" && break
   done
 
   if [[ -n "$devil_src" ]]; then
-    $SUDO cp "$devil_src" "$BIN_DIR/devil" 2>/dev/null || \
-      cp "$devil_src" "$USER_HOME/.local/bin/devil" 2>/dev/null
-    ok "devil (from repo)"
+    $SUDO cp "$devil_src" "$BIN_DIR/devil" 2>/dev/null ||       cp "$devil_src" "$USER_HOME/.local/bin/devil" 2>/dev/null
+    ok "devil (from repo copy)"
   else
-    $SUDO curl -sSL "${RAW}/scripts/devil.sh" -o "$BIN_DIR/devil" >>"$LOG" 2>&1 || \
-      curl -sSL "${RAW}/scripts/devil.sh" -o "$USER_HOME/.local/bin/devil" >>"$LOG" 2>&1 || \
-      cat | $SUDO tee "$BIN_DIR/devil" >/dev/null 2>&1 << 'DMIN'
+    # Download from GitHub
+    local tmp_devil; tmp_devil="$(mktemp /tmp/devil.XXXXXX)"
+    if curl -fsSL --max-time 30 --retry 3 "${RAW}/scripts/devil.sh" -o "$tmp_devil" 2>/dev/null &&        bash -n "$tmp_devil" 2>/dev/null; then
+      $SUDO cp "$tmp_devil" "$BIN_DIR/devil" 2>/dev/null ||         cp "$tmp_devil" "$USER_HOME/.local/bin/devil" 2>/dev/null
+      rm -f "$tmp_devil"
+      ok "devil (from GitHub)"
+    else
+      rm -f "$tmp_devil" 2>/dev/null
+      # Fallback: write minimal devil inline
+      local tmp2; tmp2="$(mktemp /tmp/devil2.XXXXXX)"
+      cat > "$tmp2" << 'DEVILMIN'
 #!/usr/bin/env bash
-# ROXX'S SLAVE — devil minimal
-bash /usr/local/bin/roxx-banner 2>/dev/null || bash "$HOME/.local/bin/roxx-banner" 2>/dev/null
+# ROXX'S SLAVE — devil minimal fallback
+BANNER=""
+for _b in /usr/local/bin/roxx-banner "$HOME/.local/bin/roxx-banner"; do
+  [[ -f "$_b" ]] && BANNER="$_b" && break
+done
+[[ -t 1 && -n "$BANNER" ]] && bash "$BANNER" 2>/dev/null || true
+echo "☠ ROXX'S SLAVE — devil hunt engine"
+echo "Usage: devil <target.com>"
 exec opencode "$@"
-DMIN
-    ok "devil (minimal fallback)"
+DEVILMIN
+      $SUDO cp "$tmp2" "$BIN_DIR/devil" 2>/dev/null ||         cp "$tmp2" "$USER_HOME/.local/bin/devil" 2>/dev/null
+      rm -f "$tmp2"
+      warn "devil: using minimal fallback — run: devil update"
+    fi
   fi
 
   $SUDO chmod +x "$BIN_DIR/devil" 2>/dev/null || chmod +x "$USER_HOME/.local/bin/devil" 2>/dev/null || true
-  $SUDO ln -sf "$BIN_DIR/devil" "$BIN_DIR/hunt" 2>/dev/null || \
-    ln -sf "$USER_HOME/.local/bin/devil" "$USER_HOME/.local/bin/hunt" 2>/dev/null || true
-  $SUDO ln -sf "$BIN_DIR/devil" "$BIN_DIR/rs" 2>/dev/null || \
-    ln -sf "$USER_HOME/.local/bin/devil" "$USER_HOME/.local/bin/rs" 2>/dev/null || true
-  ok "Aliases: hunt → devil, rs → devil"
+
+  # Aliases: hunt, rs, h
+  for alias_name in hunt rs h; do
+    $SUDO ln -sf "$BIN_DIR/devil" "$BIN_DIR/$alias_name" 2>/dev/null ||       ln -sf "$USER_HOME/.local/bin/devil" "$USER_HOME/.local/bin/$alias_name" 2>/dev/null || true
+  done
+
+  # Global: deploy to all user homes if root
+  if [[ $IS_ROOT -eq 1 ]]; then
+    for uhome in /home/*/; do
+      [[ -d "$uhome" ]] || continue
+      mkdir -p "${uhome}.local/bin" 2>/dev/null
+      cp "$BIN_DIR/devil" "${uhome}.local/bin/devil" 2>/dev/null &&         chmod +x "${uhome}.local/bin/devil" 2>/dev/null || true
+      for a in hunt rs h; do
+        ln -sf "${uhome}.local/bin/devil" "${uhome}.local/bin/$a" 2>/dev/null || true
+      done
+    done
+  fi
+
+  ok "devil + hunt + rs + h → $BIN_DIR"
 }
 
 # ═════════════════════════════════════════════════════════════════════════════
@@ -962,14 +1117,45 @@ install_dashboard() {
 # PHASE 21 — VERSION TRACKING
 # ═════════════════════════════════════════════════════════════════════════════
 save_version() {
+  # ── Auto-increment semantic version on every install ─────────────────────
+  local SEMVER_FILE="$INSTALL_DIR/.semver"
+  local cur_ver
+  cur_ver="$(cat "$SEMVER_FILE" 2>/dev/null | tr -d "[:space:]" || echo "888.0.0")"
+
+  # Parse MAJOR.MINOR.PATCH
+  local major minor patch
+  IFS='.' read -r major minor patch <<< "$cur_ver"
+  major="${major:-888}"; minor="${minor:-0}"; patch="${patch:-0}"
+
+  # Bump patch on every install
+  patch=$(( patch + 1 ))
+  local new_ver="${major}.${minor}.${patch}"
+
+  echo "$new_ver" > "$SEMVER_FILE" 2>/dev/null
+  echo "$new_ver" > "$INSTALL_DIR/.version" 2>/dev/null
+  echo "$(date '+%F %T')" > "$INSTALL_DIR/.last_updated" 2>/dev/null
+
+  # Also get remote git SHA for reference
   local sha
   sha="$(curl -fsSL --max-time 8 \
     'https://api.github.com/repos/mihirshishulkar-SCOPEX/roxxs-slave/commits/main' \
-    2>/dev/null | python3 -c "import json,sys; print(json.load(sys.stdin).get('sha','777')[:8])" \
-    2>/dev/null || echo '777')"
-  echo "$sha" > "$INSTALL_DIR/.version" 2>/dev/null
-  echo "$(date '+%F %T')" > "$INSTALL_DIR/.last_updated" 2>/dev/null
-  ok "Version: $sha"
+    2>/dev/null | python3 -c "import json,sys; print(json.load(sys.stdin).get('sha','???')[:8])" \
+    2>/dev/null || echo '???')"
+
+  # Apply to all user homes
+  if [[ $IS_ROOT -eq 1 ]]; then
+    for uhome in /root /home/*/; do
+      [[ -d "$uhome" ]] || continue
+      local ud="${uhome}.roxx-slave"
+      mkdir -p "$ud" 2>/dev/null
+      echo "$new_ver" > "$ud/.semver" 2>/dev/null
+      echo "$new_ver" > "$ud/.version" 2>/dev/null
+    done
+  fi
+
+  ok "Version: v${new_ver} (commit: ${sha})"
+  printf "${R}  ☠ INSTALLED VERSION: v%s${NC}
+" "$new_ver"
 }
 
 # ═════════════════════════════════════════════════════════════════════════════
