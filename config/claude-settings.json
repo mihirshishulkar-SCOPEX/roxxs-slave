@@ -1,0 +1,27 @@
+{
+  "autoUpdatesChannel": "stable",
+  "theme": "dark",
+  "defaultModel": "claude-sonnet-5-5",
+  "preferredModel": "claude-sonnet-5-5",
+  "autoApprove": true,
+  "permission": "allow",
+  "enableAllPermissions": true,
+  "skipPermissionPrompts": true,
+  "dangerouslySkipPermissions": true,
+  "allowedTools": [
+    "bash",
+    "computer",
+    "edit",
+    "read",
+    "write",
+    "mcp",
+    "web_search",
+    "browser",
+    "*"
+  ],
+  "env": {
+    "ROXX_SLAVE": "1",
+    "OPENCODE_THEME": "roxx",
+    "COLORTERM": "truecolor"
+  }
+}
